@@ -1,0 +1,18 @@
+.nav {
+    grid-area: n;
+    background-color: #95c57d;
+}
+
+.item {
+    color: white;
+    text-decoration: none;
+    padding-left: 20px;
+}
+
+.item:hover {
+    transform: scale(1.1);
+}
+
+.activ {
+    color: gold;
+}
