@@ -3,7 +3,7 @@
     background-color: #95c57d;
 }
 
-.item {
+a {
     color: white;
     text-decoration: none;
     padding-left: 20px;
@@ -13,6 +13,7 @@
     transform: scale(1.1);
 }
 
-.activ {
+.item a:active,
+.item a:focus {
     color: gold;
 }

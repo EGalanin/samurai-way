@@ -1,16 +1,20 @@
 import React from 'react';
-import S from './myposts.module.css'
+import s from './myposts.module.css'
 import {Post} from './post/Post';
 
 export const MyPosts = () => {
     return (
-            <div>
-                My post
+            <div className={s.postsBlock}>
+                <h3>My post</h3>
                 <div>
-                    <textarea></textarea>
-                    <button>add post</button>
+                    <div>
+                        <textarea></textarea>
+                    </div>
+                    <div>
+                        <button>add post</button>
+                    </div>
                 </div>
-                <div className={S.posts}>
+                <div className={s.posts}>
                     <Post message='Hi, how are you?' count={5}/>
                     <Post message='Hello' count={10}/>
                     <Post message='New post' count={7}/>
