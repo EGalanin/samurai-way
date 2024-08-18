@@ -8,16 +8,25 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {News} from './componets/news/News';
 import {Music} from './componets/music/Music';
 import {Settings} from './componets/settings/Settings';
+import {StateType} from './index';
 
-const App = () => {
+type AppType = {
+    state: StateType
+}
+
+const App = ({state}: AppType) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
                 <Navbar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} component={Profile}/>
-                    <Route path={'/dialogs'} component={Dialogs}/>
+                    <Route path={'/profile'} render={() => <Profile state={state}/>}/>
+                    <Route path={'/dialogs'} render={() => <Dialogs state={state}/>}/>
+
+
+                    {/*<Route path={'/profile'} component={Profile}/>*/}
+                    {/*<Route path={'/dialogs'} component={Dialogs}/>*/}
                     <Route path={'/news'} component={News}/>
                     <Route path={'/music'} component={Music}/>
                     <Route path={'/settings'} component={Settings}/>

@@ -1,43 +1,26 @@
 import React from 'react';
 import s from './dialogs.module.css';
-import {NavLink} from 'react-router-dom';
+import {Message} from './message/Message';
+import {Dialog} from './dialog/Dialog';
+import {StateType} from '../../index';
 
-type DialogType = {
-    id: string
-    name: string
+type DialogsType = {
+    state: StateType
 }
 
-type MessageType = {
-    message: string
-}
+export const Dialogs = ({state}: DialogsType) => {
 
-const Dialog = ({id, name}: DialogType) => {
-    return (
-        <div className={s.dialog}>
-            <NavLink to={'/dialogs/' + id}>{name}</NavLink>
-        </div>
-    )
-}
+    const dialogsElements = state.dialogs.map(d => <Dialog id={d.id} name={d.name}/>)
 
-const Message = ({message}: MessageType) => {
-    return (
-        <div className={s.message}>{message}</div>
-    )
-}
+    const messagesElements = state.messages.map(m => <Message id={m.id} message={m.message}/>)
 
-export const Dialogs = () => {
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItems}>
-                <Dialog id={'1'} name={'Sveta'}/>
-                <Dialog id={'2'} name={'Misha'}/>
-                <Dialog id={'3'} name={'Valera'}/>
-                <Dialog id={'4'} name={'Evgeniy'}/>
+                {dialogsElements}
             </div>
             <div className={s.messages}>
-                <Message message={'Hi!!!'}/>
-                <Message message={'How are you?'}/>
-                <Message message={'Yooo!'}/>
+                {messagesElements}
             </div>
         </div>
     );

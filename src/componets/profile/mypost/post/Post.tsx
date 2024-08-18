@@ -2,12 +2,13 @@ import React from 'react';
 import S from './post.module.css';
 import dog from '../../../../images/dog.jpg';
 
-type Posttype = {
-    message: string
+export type PostType = {
+    id: number
     count: number
+    message: string
 }
 
-export const Post = ({message, count}: Posttype) => {
+export const Post = ({id, message, count}: PostType) => {
     return (
         <div className={S.item}>
             <img src={dog} alt="аватар"/>
@@ -17,7 +18,6 @@ export const Post = ({message, count}: Posttype) => {
             <div>
                 <span>like: {count}</span>
             </div>
-
         </div>
     );
 };

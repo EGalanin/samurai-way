@@ -1,26 +1,32 @@
 import React from 'react';
 import s from './myposts.module.css'
-import {Post} from './post/Post';
+import {Post, PostType} from './post/Post';
 
-export const MyPosts = () => {
+type MyPostsType = {
+    posts: PostType[]
+}
+
+export const MyPosts = ({posts}: MyPostsType) => {
+
+    const postsElements = posts.map(p => <Post id={p.id}
+                                               message={p.message}
+                                               count={p.count}/>)
+
     return (
-            <div className={s.postsBlock}>
-                <h3>My post</h3>
+        <div className={s.postsBlock}>
+            <h3>My post</h3>
+            <div>
                 <div>
-                    <div>
-                        <textarea></textarea>
-                    </div>
-                    <div>
-                        <button>add post</button>
-                    </div>
+                    <textarea></textarea>
                 </div>
-                <div className={s.posts}>
-                    <Post message='Hi, how are you?' count={5}/>
-                    <Post message='Hello' count={10}/>
-                    <Post message='New post' count={7}/>
-
+                <div>
+                    <button>add post</button>
                 </div>
             </div>
+            <div className={s.posts}>
+                {postsElements}
+            </div>
+        </div>
     );
 };
 
