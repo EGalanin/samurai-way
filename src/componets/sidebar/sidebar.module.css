@@ -1,0 +1,29 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    /*width: 100%;*/
+    padding: 0 10px;
+    color: white;
+    margin-top: 30px;
+}
+
+.logo {
+    text-align: center;
+}
+
+.friendWrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.friend {
+    display: flex;
+    flex-direction: column;
+}
+
+.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #e7ac40;
+}

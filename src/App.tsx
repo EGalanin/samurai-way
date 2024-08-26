@@ -8,20 +8,25 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {News} from './componets/news/News';
 import {Music} from './componets/music/Music';
 import {Settings} from './componets/settings/Settings';
-import {StateType} from './index';
+import {StateType} from './redax/state';
+
 
 type AppType = {
     state: StateType
+    addPost: (postMessage: string | undefined) => void
 }
 
-const App = ({state}: AppType) => {
+const App = ({state, addPost}: AppType) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Navbar/>
+                <Navbar state={state}/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} render={() => <Profile state={state}/>}/>
+                    <Route path={'/profile'} render={() => <Profile
+                        state={state}
+                        addPost={addPost}
+                    />}/>
                     <Route path={'/dialogs'} render={() => <Dialogs state={state}/>}/>
 
 

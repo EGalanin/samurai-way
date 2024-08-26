@@ -5,7 +5,7 @@ import dog from '../../../../images/dog.jpg';
 export type PostType = {
     id: number
     count: number
-    message: string
+    message: string | undefined
 }
 
 export const Post = ({id, message, count}: PostType) => {

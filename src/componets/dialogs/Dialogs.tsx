@@ -2,7 +2,7 @@ import React from 'react';
 import s from './dialogs.module.css';
 import {Message} from './message/Message';
 import {Dialog} from './dialog/Dialog';
-import {StateType} from '../../index';
+import {StateType} from '../../redax/state';
 
 type DialogsType = {
     state: StateType
@@ -10,9 +10,14 @@ type DialogsType = {
 
 export const Dialogs = ({state}: DialogsType) => {
 
-    const dialogsElements = state.dialogs.map(d => <Dialog id={d.id} name={d.name}/>)
+    const dialogsElements = state.dialogsPage.dialogs.map(d => <Dialog key={d.id}
+                                                                       id={d.id}
+                                                                       name={d.name}
+                                                                       img={d.img}/>)
 
-    const messagesElements = state.messages.map(m => <Message id={m.id} message={m.message}/>)
+    const messagesElements = state.dialogsPage.messages.map(m => <Message key={m.id}
+                                                                          id={m.id}
+                                                                          message={m.message}/>)
 
     return (
         <div className={s.dialogs}>

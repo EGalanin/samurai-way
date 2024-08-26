@@ -7,8 +7,10 @@
     padding: 10px;
 }
 
-.dialog {
-
+.dialog img {
+    width: 30px;
+    border-radius: 15px;
+    margin-right: 10px;
 }
 
 .messages {
