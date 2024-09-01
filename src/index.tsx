@@ -1,11 +1,19 @@
-import React from 'react';
+import {store} from './redax/state';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import {state} from './redax/state';
-import {addPost} from './redax/state';
+import React from 'react';
 
-ReactDOM.render(
-    <App state={state} addPost={addPost}/>,
-    document.getElementById('root')
-);
+
+let renderTree = () => {
+    ReactDOM.render(
+        <App
+            state={store.getState()}
+            addPost={store.addPost.bind(store)}
+            updateNewPostText={store.updateNewPostText.bind(store)}
+        />,
+        document.getElementById('root')
+    );
+}
+
+renderTree()
+store.subscribe(renderTree)

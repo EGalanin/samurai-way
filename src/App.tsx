@@ -11,12 +11,14 @@ import {Settings} from './componets/settings/Settings';
 import {StateType} from './redax/state';
 
 
-type AppType = {
+export type AppType = {
     state: StateType
-    addPost: (postMessage: string | undefined) => void
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
 }
 
-const App = ({state, addPost}: AppType) => {
+
+const App = ({state, addPost, updateNewPostText}: AppType) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -26,6 +28,7 @@ const App = ({state, addPost}: AppType) => {
                     <Route path={'/profile'} render={() => <Profile
                         state={state}
                         addPost={addPost}
+                        updateNewPostText={updateNewPostText}
                     />}/>
                     <Route path={'/dialogs'} render={() => <Dialogs state={state}/>}/>
 
