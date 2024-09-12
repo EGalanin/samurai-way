@@ -1,15 +1,15 @@
 import React, {ChangeEvent, LegacyRef} from 'react';
 import s from './myposts.module.css'
 import {Post, PostType} from './post/Post';
+import {ActionsType, addPostAC, updateNewPostTextAC} from '../../../redax/state';
 
 type MyPostsType = {
     posts: PostType[]
-    addPost: (postMessage: string) => void
+    dispatch: (action: ActionsType) => void
     newPostText: string
-    updateNewPostText: (newText: string) => void
 }
 
-export const MyPosts = ({posts, addPost, newPostText, updateNewPostText}: MyPostsType) => {
+export const MyPosts = ({posts, newPostText, dispatch}: MyPostsType) => {
 
     const postsElements = posts.map(p => <Post key={p.id}
                                                id={p.id}
@@ -21,14 +21,15 @@ export const MyPosts = ({posts, addPost, newPostText, updateNewPostText}: MyPost
 
     const addPostHandler = () => {
         if (newPostElement.current) {
-            addPost(newPostElement.current.value)
+            dispatch(addPostAC())
+            // addPost(newPostElement.current.value)
             newPostElement.current.value = '';
-            // updateNewPostText('');
         }
     }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        updateNewPostText(e.currentTarget.value);
+        dispatch(updateNewPostTextAC(e.currentTarget.value))
+        // updateNewPostText(e.currentTarget.value);
 
     }
 

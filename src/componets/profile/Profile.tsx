@@ -1,24 +1,22 @@
 import React from 'react';
 import {MyPosts} from './mypost/MyPosts';
 import {ProfileInfo} from './profileInfo/ProfileInfo';
-import {StateType} from '../../redax/state';
+import {ActionsType, StateType} from '../../redax/state';
 
 type ProfileType = {
     state: StateType
-    addPost: (postMessage: string) => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
 }
 
-export const Profile = ({state, addPost, updateNewPostText}: ProfileType) => {
+export const Profile = ({state, dispatch}: ProfileType) => {
 
     return (
         <div>
             <ProfileInfo/>
             <MyPosts
                 posts={state.profilePage.posts}
-                addPost={addPost}
+                dispatch={dispatch}
                 newPostText={state.profilePage.messageForNewPost}
-                updateNewPostText={updateNewPostText}
             />
         </div>
     );

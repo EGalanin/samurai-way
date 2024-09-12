@@ -8,17 +8,16 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {News} from './componets/news/News';
 import {Music} from './componets/music/Music';
 import {Settings} from './componets/settings/Settings';
-import {StateType} from './redax/state';
+import {ActionsType, StateType} from './redax/state';
 
 
 export type AppType = {
     state: StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
 }
 
 
-const App = ({state, addPost, updateNewPostText}: AppType) => {
+const App = ({state, dispatch}: AppType) => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -27,8 +26,7 @@ const App = ({state, addPost, updateNewPostText}: AppType) => {
                 <div className={'app-wrapper-content'}>
                     <Route path={'/profile'} render={() => <Profile
                         state={state}
-                        addPost={addPost}
-                        updateNewPostText={updateNewPostText}
+                        dispatch={dispatch}
                     />}/>
                     <Route path={'/dialogs'} render={() => <Dialogs state={state}/>}/>
 
