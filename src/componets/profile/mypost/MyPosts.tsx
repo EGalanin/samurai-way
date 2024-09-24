@@ -1,7 +1,8 @@
 import React, {ChangeEvent, LegacyRef} from 'react';
 import s from './myposts.module.css'
 import {Post, PostType} from './post/Post';
-import {ActionsType, addPostAC, updateNewPostTextAC} from '../../../redax/state';
+import {ActionsType} from '../../../redax/store';
+import {addPostAC, updateNewPostTextAC} from '../../../redax/profileReducer';
 
 type MyPostsType = {
     posts: PostType[]

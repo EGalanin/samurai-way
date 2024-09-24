@@ -2,6 +2,9 @@ import {DialogType} from '../componets/dialogs/dialog/Dialog';
 import {MessageType} from '../componets/dialogs/message/Message';
 import {PostType} from '../componets/profile/mypost/post/Post';
 import dog from '../images/dog.jpg';
+import {addPostAC, profileReducer, updateNewPostTextAC} from './profileReducer';
+import {dialogReducer, sendMessageAC, updateNewMessageBodyAC} from './dialogReducer';
+import {sidebarReducer} from './sidebarReducer';
 
 export type StateType = {
     profilePage: {
@@ -11,6 +14,7 @@ export type StateType = {
     dialogsPage: {
         dialogs: DialogType[]
         messages: MessageType[]
+        newMessageBody: string
     },
     sidebar: string[]
 }
@@ -25,16 +29,11 @@ export type StoreType = {
     dispatch: (action: ActionsType) => void
 }
 
-// export type ActionAddPostType = {
-//     type: 'ADD-POST'
-// }
-//
-// export type ActionUpdateNewPostTextType = {
-//     type: 'UPDATE-NEW-POST-TEXT'
-//     newText: string
-// }
 
-export type ActionsType = ReturnType<typeof addPostAC> | ReturnType<typeof updateNewPostTextAC>
+export type ActionsType = ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof sendMessageAC>
+    | ReturnType<typeof updateNewMessageBodyAC>
 
 export const store: StoreType = {
     _state: {
@@ -57,7 +56,8 @@ export const store: StoreType = {
                 {id: 1, message: 'Hi!!!'},
                 {id: 2, message: 'How are you?'},
                 {id: 3, message: 'Yooo!'}
-            ]
+            ],
+            newMessageBody: ''
         },
         sidebar: ['Andrey', 'Sveta', 'Sacha']
     },
@@ -83,34 +83,22 @@ export const store: StoreType = {
         this._state.profilePage.messageForNewPost = '';
         this._onChange();
     },
-    updateNewPostText(newText: string)  {
+    updateNewPostText(newText: string) {
         this._state.profilePage.messageForNewPost = newText;
         this._onChange();
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost: PostType = {
-                id: 5,
-                count: 7,
-                message: this._state.profilePage.messageForNewPost
-            }
 
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.messageForNewPost = '';
-            this._onChange();
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
 
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.messageForNewPost = action.newText;
-            this._onChange();
-        } else {
-            console.log(`Unhandled action type`);
-        }
+        this._onChange();
     }
 }
 
-export const addPostAC = () => ({type: 'ADD-POST'} as const);
 
-export const updateNewPostTextAC = (text: string) => (
-    {type: 'UPDATE-NEW-POST-TEXT', newText: text} as const
-)
+
+
+

@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {News} from './componets/news/News';
 import {Music} from './componets/music/Music';
 import {Settings} from './componets/settings/Settings';
-import {ActionsType, StateType} from './redax/state';
+import {ActionsType, StateType} from './redax/store';
 
 
 export type AppType = {
@@ -28,7 +28,7 @@ const App = ({state, dispatch}: AppType) => {
                         state={state}
                         dispatch={dispatch}
                     />}/>
-                    <Route path={'/dialogs'} render={() => <Dialogs state={state}/>}/>
+                    <Route path={'/dialogs'} render={() => <Dialogs state={state} dispatch={dispatch}/>}/>
 
 
                     {/*<Route path={'/profile'} component={Profile}/>*/}

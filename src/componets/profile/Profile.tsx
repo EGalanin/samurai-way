@@ -1,7 +1,7 @@
 import React from 'react';
 import {MyPosts} from './mypost/MyPosts';
 import {ProfileInfo} from './profileInfo/ProfileInfo';
-import {ActionsType, StateType} from '../../redax/state';
+import {ActionsType, StateType} from '../../redax/store';
 
 type ProfileType = {
     state: StateType
