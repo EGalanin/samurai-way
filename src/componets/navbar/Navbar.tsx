@@ -2,13 +2,13 @@ import React from 'react';
 import S from './navbar.module.css'
 import {NavLink} from 'react-router-dom';
 import {Sidebar} from '../sidebar/Sidebar';
-import {StateType} from '../../redax/store';
+import {SidebarReducerType} from '../../redax/sidebarReducer';
 
-type NavbarType = {
-    state: StateType
-}
+// type NavbarType = {
+//     state: SidebarReducerType
+// }
 
-export const Navbar = ({state}: NavbarType) => {
+export const Navbar = () => {
 
     return (
         <nav className={S.nav}>
@@ -27,7 +27,7 @@ export const Navbar = ({state}: NavbarType) => {
             <div className={S.item}>
                 <NavLink to={'/settings'}>Settings</NavLink>
             </div>
-            <Sidebar props={state.sidebar}/>
+            {/*<Sidebar props={state.users}/> //убрал временно чтобы не оборачивать в контейнерную компоненту */}
         </nav>
     );
 };

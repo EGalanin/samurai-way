@@ -4,11 +4,14 @@ import {profileReducer} from './profileReducer';
 import {sidebarReducer} from './sidebarReducer';
 
 const rootReducer = combineReducers({
-    profilePage: dialogReducer,
-    dialogsPage: profileReducer,
+    dialogsPage: dialogReducer,
+    profilePage: profileReducer,
     sidebar: sidebarReducer
 })
 
 export const store = legacy_createStore(rootReducer)
 
 export type RootState = ReturnType<typeof store.getState>
+
+// @ts-ignore
+window.store = store

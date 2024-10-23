@@ -1,23 +1,26 @@
 import React from 'react';
 import {MyPosts} from './mypost/MyPosts';
 import {ProfileInfo} from './profileInfo/ProfileInfo';
-import {ActionsType, StateType} from '../../redax/store';
+import {ActionsType, ProfileReducerType} from '../../redax/profileReducer';
+import {MyPostContainer} from '../../componets/profile/mypost/MyPostContainer';
+import {store} from '../../redax/redax-store';
 
-type ProfileType = {
-    state: StateType
-    dispatch: (action: ActionsType) => void
-}
+// type ProfileType = {
+//     state: ProfileReducerType
+//     // dispatch: (action: ActionsType) => void
+// }
 
-export const Profile = ({state, dispatch}: ProfileType) => {
+export const Profile: React.FC = () => {
 
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts
-                posts={state.profilePage.posts}
-                dispatch={dispatch}
-                newPostText={state.profilePage.messageForNewPost}
-            />
+            <MyPostContainer />
+            {/*<MyPosts*/}
+            {/*    posts={state.posts} //state.profilePage.posts*/}
+            {/*    dispatch={dispatch}*/}
+            {/*    newPostText={state.messageForNewPost}  //state.profilePage.messageForNewPost*/}
+            {/*/>*/}
         </div>
     );
 };

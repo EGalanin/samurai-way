@@ -1,13 +1,19 @@
 import React from 'react';
 import {DialogType} from '../componets/dialogs/dialog/Dialog';
 import {MessageType} from '../componets/dialogs/message/Message';
-import {ActionsType} from './store';
 import dog from '../images/dog.jpg';
+import {ActionsType} from './profileReducer';
 
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 const SEND_MESSAGE = 'SEND-MESSAGE';
 
-const initialState = {
+export type DialogReducerType = {
+    dialogs: DialogType[]
+    messages: MessageType[]
+    newMessageBody: string
+}
+
+const initialState: DialogReducerType = {
     dialogs: [
         {id: 1, name: 'Sveta', img: dog},
         {id: 2, name: 'Misha', img: dog},
@@ -22,21 +28,22 @@ const initialState = {
     newMessageBody: ''
 }
 
-export const dialogReducer = (state: {
-    dialogs: DialogType[]
-    messages: MessageType[]
-    newMessageBody: string
-} = initialState, action: ActionsType) => {
+export const dialogReducer = (state = initialState, action: ActionsType): DialogReducerType => {
 
     switch (action.type) {
-        case SEND_MESSAGE:
+        case SEND_MESSAGE: {
             let body = state.newMessageBody;
-            state.newMessageBody = '';
-            state.messages.push({id: 4, message: body});
-            return state
+            return {
+                ...state,
+                newMessageBody: '',
+                messages: [...state.messages, {id: 4, message: body}]
+            };
+        }
         case UPDATE_NEW_MESSAGE_BODY:
-            state.newMessageBody = action.body;
-            return state
+            return {
+                ...state,
+                newMessageBody: action.body
+            };
         default:
             return state
     }

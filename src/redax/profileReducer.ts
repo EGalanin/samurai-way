@@ -1,11 +1,21 @@
 import React from 'react';
 import {PostType} from '../componets/profile/mypost/post/Post';
-import {ActionsType} from './store';
+import {sendMessageAC, updateNewMessageBodyAC} from './dialogReducer';
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const ADD_POST = 'ADD-POST';
 
-const initialState = {
+export type ProfileReducerType = {
+    messageForNewPost: string,
+    posts: PostType[]
+}
+
+export type ActionsType = ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof sendMessageAC>
+    | ReturnType<typeof updateNewMessageBodyAC>
+
+const initialState: ProfileReducerType = {
     messageForNewPost: 'YooHoo!!!',
     posts: [
         {id: 1, count: 5, message: 'Hi, how are you?'},
@@ -14,24 +24,25 @@ const initialState = {
     ],
 }
 
-export const profileReducer = (state: {
-    messageForNewPost: string,
-    posts: PostType[]
-} = initialState, action: ActionsType) => {
+export const profileReducer = (state = initialState, action: ActionsType): ProfileReducerType => {
 
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST:{
             let newPost: PostType = {
                 id: 5,
                 count: 7,
                 message: state.messageForNewPost
             }
-            state.posts.push(newPost);
-            state.messageForNewPost = '';
-            return state
-        case UPDATE_NEW_POST_TEXT:
-            state.messageForNewPost = action.newText;
-            return state
+            return  {...state,
+                posts: [...state.posts, newPost],
+                messageForNewPost: '',
+            };
+        }
+        case UPDATE_NEW_POST_TEXT:{
+            return  {...state,
+                messageForNewPost: action.newText
+            };
+        }
         default:
             return state
     }
