@@ -19,6 +19,9 @@ export const Navbar = () => {
                 <NavLink to={'/dialogs'}>Message</NavLink>
             </div>
             <div className={S.item}>
+                <NavLink to={'/users'}>Users</NavLink>
+            </div>
+            <div className={S.item}>
                 <NavLink to={'/news'}>News</NavLink>
             </div>
             <div className={S.item}>

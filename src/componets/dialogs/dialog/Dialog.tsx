@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './../dialogs.module.css';
 import {NavLink} from 'react-router-dom';
-import dog from '../../../images/dog.jpg';
+import dog from '../../../assets/images/dog.jpg';
 
 export type DialogType = {
     id: number

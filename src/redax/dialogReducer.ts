@@ -1,7 +1,7 @@
 import React from 'react';
 import {DialogType} from '../componets/dialogs/dialog/Dialog';
 import {MessageType} from '../componets/dialogs/message/Message';
-import dog from '../images/dog.jpg';
+import dog from '../assets/images/dog.jpg';
 import {ActionsType} from './profileReducer';
 
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';

@@ -8,6 +8,8 @@ import {Music} from './componets/music/Music';
 import {Settings} from './componets/settings/Settings';
 import {DialogsContainer} from '../src/componets/dialogs/DialogsContainer';
 import {Navbar} from '../src/componets/navbar/Navbar';
+import {Users} from '../src/componets/users/Users';
+import UsersContainer from '../src/componets/users/UsersContainer';
 
 
 // export type AppType = {
@@ -23,14 +25,12 @@ const App = () => {
                 <Navbar />
                 {/*//state={state.sidebar}*/}
                 <div className={'app-wrapper-content'}>
-
                     <Route path={'/profile'} component={Profile}/>
-
                     <Route path={'/dialogs'} component={DialogsContainer} />
-
                     <Route path={'/news'} component={News}/>
                     <Route path={'/music'} component={Music}/>
                     <Route path={'/settings'} component={Settings}/>
+                    <Route path={'/users'} render={() => <UsersContainer/>}/>
                 </div>
             </div>
     );
