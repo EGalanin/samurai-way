@@ -3,9 +3,14 @@ import baseFoto from '../assets/images/1avatara_ru_3D019.jpg'
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 
 export type UsersReducerType = {
-    users: UserType[]
+    users: UserType[],
+    pageSize: number
+    totalCount: number
+    currentPage: number
 }
 
 export type UserType = {
@@ -23,7 +28,10 @@ type PhotoType = {
 }
 
 const initialState: UsersReducerType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalCount: 0,
+    currentPage: 2
 }
 
 export const usersReducer = (state: UsersReducerType = initialState, action: ActionsType): UsersReducerType => {
@@ -42,8 +50,17 @@ export const usersReducer = (state: UsersReducerType = initialState, action: Act
         case 'SET_USERS':
             return {
                 ...state,
-                users: [...state.users, ...action.users]
-                // users: [...action.users]
+                users: action.users
+            }
+        case 'SET_CURRENT_PAGE':
+            return {
+                ...state,
+                currentPage: action.currentPage
+            }
+        case 'SET_TOTAL_USERS_COUNT':
+            return {
+                ...state,
+                totalCount: action.totalUsersCount
             }
         default:
             return state
@@ -71,9 +88,25 @@ export const setUsersAC = (users: UserType[]) => (
     } as const
 )
 
+export const setCurrentPageAC = (currentPage: number) => (
+    {
+        type: SET_CURRENT_PAGE,
+        currentPage
+    } as const
+)
+
+export const setTotalUsersCountAC = (totalUsersCount: number) => (
+    {
+        type: SET_TOTAL_USERS_COUNT,
+        totalUsersCount
+    } as const
+)
+
 export type ActionsType = ReturnType<typeof followAC>
     | ReturnType<typeof unfollowAC>
     | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
 
 
 
