@@ -2,16 +2,15 @@ import React from 'react';
 import {ProfileInfo} from './profileInfo/ProfileInfo';
 import {MyPostContainer} from '../../componets/profile/mypost/MyPostContainer';
 
-// type ProfileType = {
-//     state: ProfileReducerType
-//     // dispatch: (action: ActionsType) => void
-// }
+type ProfileType = {
+    profile: any
+}
 
-export const Profile: React.FC = () => {
+export const Profile: React.FC<ProfileType> = ({profile}) => {
 
     return (
         <div>
-            <ProfileInfo/>
+            <ProfileInfo profile={profile}/>
             <MyPostContainer />
         </div>
     );

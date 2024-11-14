@@ -1,21 +1,14 @@
 import React from 'react';
 import './App.css';
 import {Header} from './componets/header/Header';
-import {Profile} from './componets/profile/Profile';
 import {Route} from 'react-router-dom';
 import {News} from './componets/news/News';
 import {Music} from './componets/music/Music';
 import {Settings} from './componets/settings/Settings';
 import {DialogsContainer} from '../src/componets/dialogs/DialogsContainer';
 import {Navbar} from '../src/componets/navbar/Navbar';
-import {Users} from '../src/componets/users/Users';
 import UsersContainer from '../src/componets/users/UsersContainer';
-
-
-// export type AppType = {
-//     state: RootState
-//     dispatch: (action: ActionsType) => void
-// }
+import ProfileContainer from '../src/componets/profile/ProfileContainer';
 
 const App = () => {
 
@@ -25,7 +18,7 @@ const App = () => {
                 <Navbar />
                 {/*//state={state.sidebar}*/}
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile'} component={Profile}/>
+                    <Route path={'/profile'} component={ProfileContainer}/>
                     <Route path={'/dialogs'} component={DialogsContainer} />
                     <Route path={'/news'} component={News}/>
                     <Route path={'/music'} component={Music}/>

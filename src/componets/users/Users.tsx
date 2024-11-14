@@ -3,6 +3,7 @@ import baseUserPhoto from '../../../src/assets/images/avatardefault_92824.svg';
 import s from './users.module.css'
 import {useState} from 'react';
 import {UserType} from '../../../src/redax/users-reduser';
+import {NavLink} from 'react-router-dom';
 
 type Props = {
     totalCount: number
@@ -15,9 +16,7 @@ type Props = {
     error: string | null
     onClickHandler: (el: number) => void
 };
-export const Users = ({totalCount, pageSize, currentPage, users, follow, unfollow, loading, error, onClickHandler}: Props) => {
-
-
+export const Users = ({totalCount, pageSize,  currentPage, users, follow, unfollow, loading, error, onClickHandler}: Props) => {
 
     let pagesCount = Math.ceil(totalCount / pageSize)
     let pages = []
@@ -40,7 +39,9 @@ export const Users = ({totalCount, pageSize, currentPage, users, follow, unfollo
                 <div key={u.id}>
                     <span>
                         <div>
-                            <img className={s.img} src={u.photos.small || baseUserPhoto} alt="" />
+                            <NavLink to={'/profile/' + u.id}>
+                                 <img className={s.img} src={u.photos.small || baseUserPhoto} alt="" />
+                            </NavLink>
                         </div>
                         <div>
                             {u.followed
