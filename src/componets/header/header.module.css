@@ -1,9 +1,20 @@
 .header {
     grid-area: h;
+    display: flex;
     background-color: #86dc9e;
     padding-left: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px
+;
 }
 
 .img {
     width: 20px;
 }
+
+.loginBlock {
+    float: right;
+    color: white;
+}
+
