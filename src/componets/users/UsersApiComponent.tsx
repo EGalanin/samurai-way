@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {UserType} from '../../redax/users-reduser';
-import axios from 'axios';
 import {Users} from '../../../src/componets/users/Users';
 import {Preloader} from '../common/Preloader';
+import {usersAPI} from '../../../src/api/api';
 
 
 type Props = {
@@ -19,11 +19,7 @@ type Props = {
     toggleIsFetching: (isFetching: boolean) => void
 };
 
-type ResponseType = {
-    items: UserType[]
-    totalCount: number
-    error: string
-}
+
 
 export const UsersApiComponent: React.FC<Props> = ({
                                                        users,
@@ -43,11 +39,15 @@ export const UsersApiComponent: React.FC<Props> = ({
 
     useEffect(() => {
         toggleIsFetching(true)
-        axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-            .then(res => {
+
+        usersAPI.getUsers(currentPage, pageSize)
+        // axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
+        //     withCredentials: true
+        // })
+            .then(data => {
                 toggleIsFetching(false)
-                setUsers(res.data.items);
-                setTotalUsersCount(res.data.totalCount)
+                setUsers(data.items);
+                setTotalUsersCount(data.totalCount)
             })
             .catch(error => {
                 setError(error.message);
@@ -55,15 +55,18 @@ export const UsersApiComponent: React.FC<Props> = ({
             .finally(() => {
                 setLoading(false);
             });
-    }, [setUsers]);
+    }, [currentPage, pageSize]);
 
 
     const onClickHandler = (el: number) => {
         setCurrentPage(el);
         toggleIsFetching(true)
-        axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${el}&count=${pageSize}`)
-            .then(res => {
-                setUsers(res.data.items);
+        usersAPI.getUsers(el, pageSize)
+        // axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${el}&count=${pageSize}`, {
+        //     withCredentials: true
+        // })
+            .then(data => {
+                setUsers(data.items);
                 toggleIsFetching(false)
             })
             .catch(error => {

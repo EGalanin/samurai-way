@@ -4,6 +4,15 @@ import s from './users.module.css'
 import {useState} from 'react';
 import {UserType} from '../../../src/redax/users-reduser';
 import {NavLink} from 'react-router-dom';
+import axios, {AxiosResponse} from 'axios';
+import {usersAPI} from '../../../src/api/api';
+
+export type Response<T = {}> = {
+    data: T
+    fieldsErrors: string[]
+    messages: string[]
+    resultCode: number
+}
 
 type Props = {
     totalCount: number
@@ -45,8 +54,43 @@ export const Users = ({totalCount, pageSize,  currentPage, users, follow, unfoll
                         </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => unfollow(u.id)}>UnFollow</button>
-                                : <button onClick={() => follow(u.id)}>Follow</button>}
+                                ? <button onClick={() => {
+                                    usersAPI.deleteUser(u.id)
+                                    // axios.delete<Response>(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    //     {withCredentials: true,
+                                    //     headers: {
+                                    //         'API-KEY': '923e2395-129b-4098-97f8-439987799b24'
+                                    //     }})
+                                        .then(res => {
+                                            // console.log(res.data)
+                                            if (res.resultCode === 0) {
+                                                unfollow(u.id);
+                                            }
+                                        })
+                                        .catch(error => {
+                                        console.error("Ошибка при отписке на пользователя:", error);
+                                    });
+
+                                }}>UnFollow</button>
+                                : <button onClick={() => {
+                                    usersAPI.postUser(u.id)
+                                    // axios.post<Response>(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    //     {},
+                                    //     {withCredentials: true,
+                                    //         headers: {
+                                    //             'API-KEY': '923e2395-129b-4098-97f8-439987799b24'
+                                    //         }})
+                                        .then(res => {
+                                            // console.log(res.data)
+                                            if (res.resultCode === 0) {
+                                                follow(u.id);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error("Ошибка при подписке на пользователя:", error);
+                                        });
+
+                                }}>Follow</button>}
                         </div>
                     </span>
                     <span>

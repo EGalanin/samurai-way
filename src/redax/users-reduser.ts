@@ -48,7 +48,7 @@ export const usersReducer = (state: UsersReducerType = initialState, action: Act
         case 'UNFOLLOW':
             return {
                 ...state,
-                users: state.users.map(u => u.id === action.userId ? {...u, unfollowed: false} : u)
+                users: state.users.map(u => u.id === action.userId ? {...u, followed: false} : u)
             }
         case 'SET_USERS':
             return {
