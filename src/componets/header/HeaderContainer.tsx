@@ -1,31 +1,30 @@
 import React, {useEffect} from 'react';
 import {Header} from '../../../src/componets/header/Header';
-import axios from 'axios';
 import {connect} from 'react-redux';
 import {RootState} from '../../../src/redax/redax-store';
-import {initialState, setAuthUserData} from '../../../src/redax/auth-reduser';
+import {getAuthUser, setAuthUserData} from '../../../src/redax/auth-reduser';
+import {authAPI} from '../../api/api';
 
 type HeadersProps = {
     isAuth: boolean;
     login: string | null;
-    setAuthUserData: (id: string, email: string, login: string) => void;
+    // setAuthUserData: (id: string, email: string, login: string) => void;
+    getAuthUser: () => void //типизация ???
 }
 
-const HeaderContainer: React.FC<HeadersProps> = ({setAuthUserData, isAuth, login}) => {
+const HeaderContainer: React.FC<HeadersProps> = ({getAuthUser, isAuth, login}) => {
 
     useEffect(() => {
         const authMe = async () => {
             try {
-                const res = await axios.get<{ resultCode: number; data: { id: number; email: string; login: string } }>(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-                    withCredentials: true,
-                })
-                    .then(res => {
-                        if (res.data.resultCode === 0) {
-                            let {id, email, login} = res.data.data
-                            // console.log(id, email, login)
-                            setAuthUserData(String(id), email, login);
-                        }
-                    })
+                getAuthUser()
+                // authAPI.me()
+                //     .then(res => {
+                //         if (res.resultCode === 0) {
+                //             let {id, email, login} = res.data
+                //             setAuthUserData(String(id), email, login);
+                //         }
+                //     })
             } catch (error) {
                 // console.error(error.message); // Логируем ошибку
             }
@@ -42,7 +41,7 @@ const HeaderContainer: React.FC<HeadersProps> = ({setAuthUserData, isAuth, login
 
 type MapStatePropsType = {
     isAuth: boolean
-     login: string | null
+    login: string | null
 }
 
 let mapStateToProps = (state: RootState): MapStatePropsType => ({
@@ -50,5 +49,4 @@ let mapStateToProps = (state: RootState): MapStatePropsType => ({
     login: state.auth?.login,
 })
 
-
-export default connect(mapStateToProps, {setAuthUserData})(HeaderContainer)
+export default connect(mapStateToProps, {getAuthUser})(HeaderContainer)

@@ -13,8 +13,10 @@ export const Header = ({isAuth, login}: HeadersType) => {
             <img className={s.img} src="#" alt=""/>
 
             <div className={s.loginBlock}>
-                {isAuth ? login: ''}
-                <NavLink to={'/login'}>Login</NavLink>
+                {isAuth ? login : <NavLink to={'/login'}>Login</NavLink> }
+
+                {/*{isAuth ? login: ''}*/}
+                {/*<NavLink to={'/login'}>Login</NavLink>*/}
             </div>
         </header>
     );

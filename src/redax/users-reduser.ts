@@ -1,4 +1,6 @@
 import baseFoto from '../assets/images/1avatara_ru_3D019.jpg'
+import {Dispatch} from 'redux';
+import {usersAPI} from '../api/api';
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -6,6 +8,7 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 
 export type UsersReducerType = {
     users: UserType[],
@@ -13,6 +16,7 @@ export type UsersReducerType = {
     totalCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: string[]
 }
 
 export type UserType = {
@@ -22,6 +26,7 @@ export type UserType = {
     photos: PhotoType
     followed: boolean
     status: string
+
 }
 
 type PhotoType = {
@@ -34,7 +39,8 @@ const initialState: UsersReducerType = {
     pageSize: 5,
     totalCount: 0,
     currentPage: 2,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
 export const usersReducer = (state: UsersReducerType = initialState, action: ActionsType): UsersReducerType => {
@@ -70,19 +76,26 @@ export const usersReducer = (state: UsersReducerType = initialState, action: Act
                 ...state,
                 isFetching: action.isFetching
             }
+        case 'TOGGLE_IS_FOLLOWING_PROGRESS':
+            return {
+                ...state,
+                followingInProgress: action.isFollowing
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id !== action.userId)
+            }
         default:
             return state
     }
 }
-
-export const follow = (userId: string) => (
+// Action Creaters
+export const acceptFollow = (userId: string) => (
     {
         type: FOLLOW,
         userId
     } as const
 )
 
-export const unfollow = (userId: string) => (
+export const acceptUnfollow = (userId: string) => (
     {
         type: UNFOLLOW,
         userId
@@ -117,12 +130,78 @@ export const toggleIsFetching = (isFetching: boolean) => (
     } as const
 )
 
-export type ActionsType = ReturnType<typeof follow>
-    | ReturnType<typeof unfollow>
+export const toggleFollowingProgress = (isFollowing: boolean, userId: string) => (
+    {
+        type: TOGGLE_IS_FOLLOWING_PROGRESS,
+        isFollowing,
+        userId
+    } as const
+)
+
+//Thunk
+//getUsersThunkCreator
+export const getUsers= (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleIsFetching(true))
+        dispatch(setCurrentPage(currentPage))
+
+        usersAPI.getUsers(currentPage, pageSize)
+            // axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
+            //     withCredentials: true
+            // })
+            .then(data => {
+                dispatch(setUsers(data.items))
+                dispatch(setTotalUsersCount(data.totalCount))
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
+            .finally(() => {
+                dispatch(toggleIsFetching(false))
+            });
+    }
+}
+
+export const follow= (userId: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleFollowingProgress(true, userId))
+        usersAPI.follow(userId)
+            .then(res => {
+                if (res.resultCode === 0) {
+                    dispatch(acceptFollow(userId))
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при подписке на пользователя:', error);
+            })
+            .finally(() => dispatch(toggleFollowingProgress(false, userId)))
+    }
+}
+
+export const unfollow= (userId: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(toggleFollowingProgress(true, userId))
+        usersAPI.unfollow(userId)
+            .then(res => {
+                if (res.resultCode === 0) {
+                    dispatch(acceptUnfollow(userId));
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при отписке на пользователя:', error)
+
+            })
+            .finally(() => dispatch(toggleFollowingProgress(false, userId)))
+    }
+}
+
+export type ActionsType = ReturnType<typeof acceptFollow>
+    | ReturnType<typeof acceptUnfollow>
     | ReturnType<typeof setUsers>
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleFollowingProgress>
 
 
 
