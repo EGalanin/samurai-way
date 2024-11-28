@@ -3,7 +3,6 @@ import s from './dialogs.module.css';
 import {Message} from './message/Message';
 import {Dialog} from './dialog/Dialog';
 import {DialogReducerType} from '../../redax/dialogReducer';
-import {Redirect} from 'react-router-dom';
 
 type DialogsType = {
     dialogsPage: DialogReducerType
@@ -36,7 +35,7 @@ export const Dialogs = ({dialogsPage, sendMessage, updateNewMessageBody, isAuth}
         updateNewMessageBody(body);
     }
 
-    if (!isAuth) { return <Redirect to={'/login'} /> }
+    // if (!isAuth) { return <Redirect to={'/login'} /> }
 
     return (
         <div className={s.dialogs}>

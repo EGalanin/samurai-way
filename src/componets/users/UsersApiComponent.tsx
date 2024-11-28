@@ -57,22 +57,6 @@ export const UsersApiComponent: React.FC<Props> = ({
     const onClickHandler = (el: number) => {
 
         getUsers(el, pageSize)
-        // setCurrentPage(el);
-        // toggleIsFetching(true)
-        // usersAPI.getUsers(el, pageSize)
-        // // axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${el}&count=${pageSize}`, {
-        // //     withCredentials: true
-        // // })
-        //     .then(data => {
-        //         setUsers(data.items);
-        //         toggleIsFetching(false)
-        //     })
-        //     .catch(error => {
-        //         setError(error.message);
-        //     })
-        //     .finally(() => {
-        //         setLoading(false);
-        //     });
     }
 
     return (

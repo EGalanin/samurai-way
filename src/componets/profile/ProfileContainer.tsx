@@ -3,9 +3,10 @@ import {useEffect} from 'react';
 import {Profile} from '../../../src/componets/profile/Profile';
 import {connect} from 'react-redux';
 import {RootState} from '../../../src/redax/redax-store';
-import {getUserProfile, RootInterface, setUserProfile} from '../../../src/redax/profileReducer';
-import {Redirect, RouteComponentProps, useParams} from 'react-router-dom';
-import {usersAPI} from '../../api/api';
+import {getUserProfile, RootInterface} from '../../../src/redax/profileReducer';
+import {RouteComponentProps, useParams} from 'react-router-dom';
+import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
+import {compose} from 'redux';
 
 type RouteParams  = {
     userId: string;
@@ -14,15 +15,15 @@ type RouteParams  = {
 type Props = RouteComponentProps<RouteParams> & {
     profile: RootInterface | null;
     isAuth: boolean
-    // setUserProfile: (profile: RootInterface | null) => void;
     getUserProfile: (userId: string) => any  //пофиксить
 };
 
 const ProfileContainer: React.FC<Props> = (props) => {
 
-    // const {setUserProfile} = props;
-    const {getUserProfile, isAuth, profile} = props;
+    const {getUserProfile, profile} = props;
     const { userId } = useParams<RouteParams>()
+
+    console.log(profile)
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -32,34 +33,32 @@ const ProfileContainer: React.FC<Props> = (props) => {
                     throw new Error("ID is missing");
                 }
                 getUserProfile(userId)
-                // usersAPI.getProfile(userId)
-                //     .then((response) => {
-                //         console.log(response)
-                //         // setUserProfile(response);
-                //     })
+                console.log("Profile fetched successfully");
             } catch (error) {
                 // console.error(error.message); // Логируем ошибку
             }
         };
 
         fetchProfile();
-    }, [userId]);
-
-    if (!isAuth) { return <Redirect to={'/login'} /> }
+    }, [userId, getUserProfile]);
 
     return (
         <Profile profile={profile} />
     );
 };
 
+// let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
+// const connect(mapStateToProps, {getUserProfile})(AuthRedirectComponent)
+
 type MapStatePropsType = {
     profile: RootInterface | null,
-    isAuth: boolean
 }
 
 let mapStateToProps = (state: RootState): MapStatePropsType => ({
     profile: state.profilePage?.profile,
-    isAuth: state.auth?.isAuth
 })
 
-export default connect(mapStateToProps, {getUserProfile})(ProfileContainer)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {getUserProfile}),
+    // WithAuthRedirect
+)(ProfileContainer)

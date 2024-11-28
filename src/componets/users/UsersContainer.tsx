@@ -2,6 +2,8 @@ import {UsersApiComponent} from '../../../src/componets/users/UsersApiComponent'
 import {connect} from 'react-redux';
 import {RootState} from '../../../src/redax/redax-store';
 import {follow, getUsers, toggleFollowingProgress, unfollow, UserType,} from '../../redax/users-reduser';
+import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
+import {compose} from 'redux';
 
 
 type MapStatePropsType = {
@@ -35,32 +37,12 @@ type MapDispatchPropsType = {
     getUsersThunkCreator: (currentPage: number, pageSize: number) => void
 }
 
-// let mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
-//     return {
-//         follow: (userId: string) => {
-//             dispatch(follow(userId))
-//         },
-//         unfollow: (userId: string) => {
-//             dispatch(unfollow(userId))
-//         },
-//         setUsers: (users: UserType[]) => {
-//             dispatch(setUsers(users))
-//         },
-//         setCurrentPage: (currentPage: number) => {
-//             dispatch((setCurrentPage(currentPage)))
-//         },
-//         setTotalUsersCount: (totalUsersCount: number) => {
-//             dispatch(setTotalUsersCount(totalUsersCount))
-//         },
-//         toggleIsFetching: (isFetching: boolean) => {
-//             dispatch(toggleIsFetching(isFetching))
-//         }
-//     }
-// }
-
-export default  connect(mapStateToProps, {
-    follow,
-    unfollow,
-    toggleFollowingProgress,
-    getUsers
-})(UsersApiComponent)
+export default compose<React.ComponentType>(
+    WithAuthRedirect,
+    connect(mapStateToProps, {
+        follow,
+        unfollow,
+        toggleFollowingProgress,
+        getUsers
+    })
+)(UsersApiComponent)

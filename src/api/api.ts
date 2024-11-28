@@ -55,17 +55,6 @@ export const usersAPI = {
                 console.log(response.data)
                 return response.data
         }
-        // getProfile: (userId: string): Promise<RootInterface> => {
-        //         return instance.get<RootInterface>(`profile/${userId}`)
-        //             .then((response: AxiosResponse<RootInterface>) => {
-        //                     console.log(response.data);
-        //                     return response.data;
-        //             })
-        //             .catch((error) => {
-        //                     console.error('Error fetching user profile:', error);
-        //                     throw error; // Пробрасываем ошибку дальше, чтобы ее можно было обработать в вызове
-        //             });
-        // }
 }
 
 export const authAPI = {
