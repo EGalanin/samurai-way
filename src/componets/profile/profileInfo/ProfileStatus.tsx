@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import s from './profileInfo.module.css';
-import { RootInterface } from '../../../redax/profileReducer';
 
 type ProfileStatusType = {
     status: string;
+    updateUserStatus: (status: string) => void// пофиксить
 };
 
-export const ProfileStatus = ({ status }: ProfileStatusType) => {
+export const ProfileStatus = ({ status, updateUserStatus }: ProfileStatusType) => {
 
     const [editMode, setEditMode] = useState(false);
     const [currentStatus, setCurrentStatus] = useState(status);
@@ -28,6 +27,7 @@ export const ProfileStatus = ({ status }: ProfileStatusType) => {
 
     const handleBlur = () => {
         setEditMode(false);
+        updateUserStatus(currentStatus);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,11 @@ export const ProfileStatus = ({ status }: ProfileStatusType) => {
                 </div>
             ) : (
                 <div>
-                    <span onClick={handleClick}>{currentStatus}</span>
+                    {currentStatus ? (
+                        <span onClick={handleClick}>{currentStatus}</span>
+                    ) : (
+                        <span onClick={handleClick}>Нет статуса</span>
+                    )}
                 </div>
             )}
         </>

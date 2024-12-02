@@ -1,33 +1,30 @@
-import React from 'react';
 import {PostType} from '../componets/profile/mypost/post/Post';
-import {sendMessageAC, updateNewMessageBodyAC} from './dialogReducer';
+import {sendMessageAC} from './dialogReducer';
 import {Dispatch} from 'redux';
-import {usersAPI} from '../api/api';
+import {profileAPI, usersAPI} from '../api/api';
 
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
 export type ProfileReducerType = {
-    messageForNewPost: string,
     posts: PostType[],
-    profile: RootInterface | null
+    profile: RootInterface | null,
+    status: string
 }
 
 export type ActionsType = ReturnType<typeof addPostAC>
-    | ReturnType<typeof updateNewPostTextAC>
     | ReturnType<typeof sendMessageAC>
-    | ReturnType<typeof updateNewMessageBodyAC>
-    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setStatus>
 
 const initialState: ProfileReducerType = {
-    messageForNewPost: 'YooHoo!!!',
     posts: [
         {id: 1, count: 5, message: 'Hi, how are you?'},
         {id: 2, count: 10, message: 'Hello'},
         {id: 3, count: 7, message: 'New post'}
     ],
-    profile: null
+    profile: null,
+    status: ''
 }
 
 export const profileReducer = (state = initialState, action: ActionsType): ProfileReducerType => {
@@ -36,25 +33,18 @@ export const profileReducer = (state = initialState, action: ActionsType): Profi
         case ADD_POST: {
             let newPost: PostType = {
                 id: 5,
-                count: 7,
-                message: state.messageForNewPost
+                count: 0,
+                message: action.newPostText
             }
             return {
                 ...state,
-                posts: [...state.posts, newPost],
-                messageForNewPost: '',
+                posts: [...state.posts, newPost]
             };
         }
-        case UPDATE_NEW_POST_TEXT: {
+        case SET_STATUS: {
             return {
                 ...state,
-                messageForNewPost: action.newText
-            };
-        }
-        case SET_USER_PROFILE: {
-            return {
-                ...state,
-                profile: action.profile
+                status: action.status
             }
         }
         default:
@@ -62,14 +52,14 @@ export const profileReducer = (state = initialState, action: ActionsType): Profi
     }
 }
 
-export const addPostAC = () => ({type: ADD_POST} as const);
-
-export const updateNewPostTextAC = (text: string) => (
-    {type: UPDATE_NEW_POST_TEXT, newText: text} as const
-)
+export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText} as const);
 
 export const setUserProfile = (profile: RootInterface | null) => (
     {type: SET_USER_PROFILE, profile} as const
+)
+
+export const setStatus = (status: string) => (
+    {type: SET_STATUS, status} as const
 )
 
 //thunk
@@ -83,12 +73,30 @@ export const setUserProfile = (profile: RootInterface | null) => (
 // };
 
 export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
-    usersAPI.getProfile(userId)
+    usersAPI.getProfile (userId)
         .then((response) => {
             dispatch(setUserProfile(response));
         })
 }
 
+export const getUserStatus = (userId: string) => (dispatch: Dispatch) => {
+    profileAPI.getStatus(userId)
+        .then((response) => {
+            console.log(response)
+            dispatch(setStatus(response));
+        })
+}
+
+export const updateUserStatus = (status: string) => (dispatch: Dispatch) => {
+    profileAPI.updateStatus(status)
+        .then((response) => {
+            if (response.resultCode === 0) {
+                dispatch(setStatus(status));
+            } else {
+                throw new Error('Something wrong update Status!');
+            }
+        })
+}
 
 export type RootInterface = {
     aboutMe: string;

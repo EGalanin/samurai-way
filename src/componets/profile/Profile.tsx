@@ -5,13 +5,18 @@ import {RootInterface} from '../../redax/profileReducer';
 
 type ProfileType = {
     profile: RootInterface | null;
+    status: string
+    updateUserStatus: (status: string) => any // пофиксить
 }
 
-export const Profile: React.FC<ProfileType> = ({profile}) => {
+export const Profile: React.FC<ProfileType> = ({profile, status, updateUserStatus}) => {
 
     return (
         <div>
-            <ProfileInfo profile={profile}/>
+            <ProfileInfo profile={profile}
+                         status={status}
+                         updateUserStatus={updateUserStatus}
+            />
             <MyPostContainer />
         </div>
     );

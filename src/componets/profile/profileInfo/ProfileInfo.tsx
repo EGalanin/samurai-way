@@ -6,9 +6,11 @@ import {ProfileStatus} from '../profileInfo/ProfileStatus';
 
 type ProfileInfoType = {
     profile: RootInterface | null;
+    status: string
+    updateUserStatus: (status: string) => any // пофиксить
 }
 
-export const ProfileInfo = ({profile}: ProfileInfoType) => {
+export const ProfileInfo = ({profile, status, updateUserStatus}: ProfileInfoType) => {
 
     if (!profile) {
         return <Preloader/>
@@ -22,7 +24,7 @@ export const ProfileInfo = ({profile}: ProfileInfoType) => {
             {/*</div>*/}
             <div className={s.descriptionBlock}>
                 <img src={profile.photos.large} alt="big photo"/>
-                <ProfileStatus  status={'Hello friend!!!'}/>
+                <ProfileStatus  status={status} updateUserStatus={updateUserStatus}/>
             </div>
         </>
     );

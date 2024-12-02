@@ -3,9 +3,8 @@ import {useEffect} from 'react';
 import {Profile} from '../../../src/componets/profile/Profile';
 import {connect} from 'react-redux';
 import {RootState} from '../../../src/redax/redax-store';
-import {getUserProfile, RootInterface} from '../../../src/redax/profileReducer';
+import {getUserProfile, getUserStatus, RootInterface, updateUserStatus} from '../../../src/redax/profileReducer';
 import {RouteComponentProps, useParams} from 'react-router-dom';
-import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
 import {compose} from 'redux';
 
 type RouteParams  = {
@@ -14,16 +13,19 @@ type RouteParams  = {
 
 type Props = RouteComponentProps<RouteParams> & {
     profile: RootInterface | null;
+    status: string
     isAuth: boolean
     getUserProfile: (userId: string) => any  //пофиксить
+    getUserStatus: (userId: string) => any //пофиксить
+    updateUserStatus: (status: string) => any // пофиксить
 };
 
 const ProfileContainer: React.FC<Props> = (props) => {
 
-    const {getUserProfile, profile} = props;
+
+    const {getUserProfile, getUserStatus, updateUserStatus, profile, status} = props;
     const { userId } = useParams<RouteParams>()
 
-    console.log(profile)
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -34,31 +36,35 @@ const ProfileContainer: React.FC<Props> = (props) => {
                 }
                 getUserProfile(userId)
                 console.log("Profile fetched successfully");
+                getUserStatus(userId)
+                console.log("Get Status successfully");
             } catch (error) {
                 // console.error(error.message); // Логируем ошибку
             }
         };
-
         fetchProfile();
-    }, [userId, getUserProfile]);
+    }, [userId, getUserProfile, getUserStatus]);
+
 
     return (
-        <Profile profile={profile} />
+        <Profile profile={profile}
+                 status={status}
+                 updateUserStatus={updateUserStatus}
+        />
     );
 };
 
-// let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
-// const connect(mapStateToProps, {getUserProfile})(AuthRedirectComponent)
-
 type MapStatePropsType = {
     profile: RootInterface | null,
+    status: string
 }
 
 let mapStateToProps = (state: RootState): MapStatePropsType => ({
     profile: state.profilePage?.profile,
+    status: state.profilePage?.status
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile}),
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
     // WithAuthRedirect
 )(ProfileContainer)
