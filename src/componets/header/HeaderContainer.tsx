@@ -1,40 +1,31 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Header} from '../../../src/componets/header/Header';
 import {connect} from 'react-redux';
 import {RootState} from '../../../src/redax/redax-store';
-import {getAuthUser, setAuthUserData} from '../../../src/redax/auth-reduser';
-import {authAPI} from '../../api/api';
+import {logout} from '../../../src/redax/auth-reduser';
 
 type HeadersProps = {
     isAuth: boolean;
     login: string | null;
-    // setAuthUserData: (id: string, email: string, login: string) => void;
-    getAuthUser: () => void //типизация ???
+    logout: () => void;
 }
 
-const HeaderContainer: React.FC<HeadersProps> = ({getAuthUser, isAuth, login}) => {
+const HeaderContainer: React.FC<HeadersProps> = ({isAuth, login, logout}) => {
 
-    useEffect(() => {
-        const authMe = async () => {
-            try {
-                getAuthUser()
-                // authAPI.me()
-                //     .then(res => {
-                //         if (res.resultCode === 0) {
-                //             let {id, email, login} = res.data
-                //             setAuthUserData(String(id), email, login);
-                //         }
-                //     })
-            } catch (error) {
-                // console.error(error.message); // Логируем ошибку
-            }
-        };
-
-        authMe();
-    }, [setAuthUserData]);
+    // useEffect(() => {
+    //     const authMe = async () => {
+    //         try {
+    //             getAuthUser()
+    //         } catch (error) {
+    //             // console.error(error.message); // Логируем ошибку
+    //         }
+    //     };
+    //
+    //     authMe();
+    // }, [setAuthUserData]);
 
     return (
-        <Header login={login ?? ''} isAuth={isAuth}/>
+        <Header login={login ?? ''} isAuth={isAuth} logout={logout}/>
     );
 };
 
@@ -49,4 +40,4 @@ let mapStateToProps = (state: RootState): MapStatePropsType => ({
     login: state.auth?.login,
 })
 
-export default connect(mapStateToProps, {getAuthUser})(HeaderContainer)
+export default connect(mapStateToProps, {logout})(HeaderContainer)

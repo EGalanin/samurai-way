@@ -21,7 +21,13 @@ export type MeResponseData = {
     email: string;
 }
 
-export type ResponseStatus = string //{ Mediatype: string  Type: any }
+export type ResponseStatus = string
+
+export type Login = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 
 
 const instance = axios.create({
@@ -82,7 +88,20 @@ export const authAPI = {
         const response: AxiosResponse<Response<MeResponseData>> = await instance.get<Response<MeResponseData>>(
             `auth/me`)
         return response.data
-    }
+    },
+    login: async (email: string, password: string, rememberMe: boolean): Promise<Response<Login>> => {
+        const response: AxiosResponse<Response<Login>> = await instance.post<Response<Login>>(
+            `auth/login`,
+            {email, password, rememberMe})
+        console.log(response.data)
+        return response.data
+    },
+    logout: async (): Promise<Response> => {
+        const response: AxiosResponse<Response> = await instance.delete<Response>(
+            `auth/login`)
+        return response.data
+    },
+
 }
 
 

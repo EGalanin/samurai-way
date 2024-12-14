@@ -16,6 +16,7 @@ export type ProfileReducerType = {
 export type ActionsType = ReturnType<typeof addPostAC>
     | ReturnType<typeof sendMessageAC>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof setUserProfile>
 
 const initialState: ProfileReducerType = {
     posts: [
@@ -47,6 +48,12 @@ export const profileReducer = (state = initialState, action: ActionsType): Profi
                 status: action.status
             }
         }
+        case SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile
+            }
+        }
         default:
             return state
     }
@@ -73,7 +80,7 @@ export const setStatus = (status: string) => (
 // };
 
 export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
-    usersAPI.getProfile (userId)
+    usersAPI.getProfile(userId)
         .then((response) => {
             dispatch(setUserProfile(response));
         })

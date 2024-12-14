@@ -6,6 +6,8 @@ import {usersReducer} from './users-reduser';
 import {authReducer} from '../../src/redax/auth-reduser';
 import thunk from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
+import {appReducer} from '../redax/app-reduser';
+
 
 const rootReducer = combineReducers({
     dialogsPage: dialogReducer,
@@ -13,7 +15,8 @@ const rootReducer = combineReducers({
     sidebar: sidebarReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    form: formReducer
+    form: formReducer,
+    app: appReducer,
 })
 
 export const store = legacy_createStore(rootReducer, {},applyMiddleware(thunk))

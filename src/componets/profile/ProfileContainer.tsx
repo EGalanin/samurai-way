@@ -6,6 +6,7 @@ import {RootState} from '../../../src/redax/redax-store';
 import {getUserProfile, getUserStatus, RootInterface, updateUserStatus} from '../../../src/redax/profileReducer';
 import {RouteComponentProps, useParams} from 'react-router-dom';
 import {compose} from 'redux';
+import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
 
 type RouteParams  = {
     userId: string;
@@ -15,6 +16,7 @@ type Props = RouteComponentProps<RouteParams> & {
     profile: RootInterface | null;
     status: string
     isAuth: boolean
+    autorizedUser: string | null
     getUserProfile: (userId: string) => any  //пофиксить
     getUserStatus: (userId: string) => any //пофиксить
     updateUserStatus: (status: string) => any // пофиксить
@@ -22,16 +24,15 @@ type Props = RouteComponentProps<RouteParams> & {
 
 const ProfileContainer: React.FC<Props> = (props) => {
 
-
-    const {getUserProfile, getUserStatus, updateUserStatus, profile, status} = props;
+    const {getUserProfile, getUserStatus, updateUserStatus, profile, status, isAuth, autorizedUser } = props;
     const { userId } = useParams<RouteParams>()
-
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
                 console.log("Fetching profile with ID:", userId); // Логируем id
                 if (!userId) {
+                    // userId = autorizedUser
                     throw new Error("ID is missing");
                 }
                 getUserProfile(userId)
@@ -57,14 +58,19 @@ const ProfileContainer: React.FC<Props> = (props) => {
 type MapStatePropsType = {
     profile: RootInterface | null,
     status: string
+    autorizedUser: string | null
+    isAuth: boolean
+
 }
 
 let mapStateToProps = (state: RootState): MapStatePropsType => ({
     profile: state.profilePage?.profile,
-    status: state.profilePage?.status
+    status: state.profilePage?.status,
+    autorizedUser: state.auth?.users,
+    isAuth: state.auth?.isAuth,
 })
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
-    // WithAuthRedirect
+    WithAuthRedirect
 )(ProfileContainer)
