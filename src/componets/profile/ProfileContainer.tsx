@@ -9,14 +9,14 @@ import {compose} from 'redux';
 import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
 
 type RouteParams  = {
-    userId: string;
+    userId: string ;
 }
 
 type Props = RouteComponentProps<RouteParams> & {
     profile: RootInterface | null;
     status: string
     isAuth: boolean
-    autorizedUser: string | null
+    autorizedUserId: string | null
     getUserProfile: (userId: string) => any  //пофиксить
     getUserStatus: (userId: string) => any //пофиксить
     updateUserStatus: (status: string) => any // пофиксить
@@ -24,7 +24,7 @@ type Props = RouteComponentProps<RouteParams> & {
 
 const ProfileContainer: React.FC<Props> = (props) => {
 
-    const {getUserProfile, getUserStatus, updateUserStatus, profile, status, isAuth, autorizedUser } = props;
+    const {getUserProfile, getUserStatus, updateUserStatus, profile, status, isAuth, autorizedUserId } = props;
     const { userId } = useParams<RouteParams>()
 
     useEffect(() => {
@@ -32,8 +32,12 @@ const ProfileContainer: React.FC<Props> = (props) => {
             try {
                 console.log("Fetching profile with ID:", userId); // Логируем id
                 if (!userId) {
-                    // userId = autorizedUser
-                    throw new Error("ID is missing");
+                    if (autorizedUserId) {
+                        getUserProfile(autorizedUserId);
+                    } else {
+                        throw new Error("ID авторизованного пользователя отсутствует");
+                    }
+                    return;
                 }
                 getUserProfile(userId)
                 console.log("Profile fetched successfully");
@@ -58,7 +62,7 @@ const ProfileContainer: React.FC<Props> = (props) => {
 type MapStatePropsType = {
     profile: RootInterface | null,
     status: string
-    autorizedUser: string | null
+    autorizedUserId: string | null
     isAuth: boolean
 
 }
@@ -66,7 +70,7 @@ type MapStatePropsType = {
 let mapStateToProps = (state: RootState): MapStatePropsType => ({
     profile: state.profilePage?.profile,
     status: state.profilePage?.status,
-    autorizedUser: state.auth?.users,
+    autorizedUserId: state.auth?.userId,
     isAuth: state.auth?.isAuth,
 })
 

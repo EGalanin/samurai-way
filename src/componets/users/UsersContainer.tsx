@@ -4,6 +4,13 @@ import {RootState} from '../../../src/redax/redax-store';
 import {follow, getUsers, toggleFollowingProgress, unfollow, UserType,} from '../../redax/users-reduser';
 import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
 import {compose} from 'redux';
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalCount, getUsersPage
+} from '../../redax/users-selectors';
 
 
 type MapStatePropsType = {
@@ -15,14 +22,25 @@ type MapStatePropsType = {
     followingInProgress: string[]
 }
 
+// let mapStateToProps = (state: RootState): MapStatePropsType => {
+//     return {
+//         users: state.usersPage?.users || [],
+//         pageSize: state.usersPage?.pageSize,
+//         totalCount: state.usersPage?.totalCount,
+//         currentPage: state.usersPage?.currentPage,
+//         isFetching: state.usersPage?.isFetching,
+//         followingInProgress: state.usersPage?.followingInProgress
+//     }
+// }
+
 let mapStateToProps = (state: RootState): MapStatePropsType => {
     return {
-        users: state.usersPage?.users || [],
-        pageSize: state.usersPage?.pageSize,
-        totalCount: state.usersPage?.totalCount,
-        currentPage: state.usersPage?.currentPage,
-        isFetching: state.usersPage?.isFetching,
-        followingInProgress: state.usersPage?.followingInProgress
+        users: getUsersPage(state),
+        pageSize: getPageSize(state),
+        totalCount: getTotalCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
