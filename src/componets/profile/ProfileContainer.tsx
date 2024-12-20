@@ -40,9 +40,9 @@ const ProfileContainer: React.FC<Props> = (props) => {
                     return;
                 }
                 getUserProfile(userId)
-                console.log("Profile fetched successfully");
+                // console.log("Profile fetched successfully");
                 getUserStatus(userId)
-                console.log("Get Status successfully");
+                // console.log("Get Status successfully");
             } catch (error) {
                 // console.error(error.message); // Логируем ошибку
             }

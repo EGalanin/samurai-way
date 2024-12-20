@@ -5,7 +5,6 @@ import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {maxLengthCreator, required} from '../../../utils/validators/validators';
 import {Textarea} from '../../../componets/common/formsControls/FormsControl';
 
-
 type MyPostsType = {
     posts: PostType[];
     addPost: (newPostText: string) => void;
@@ -13,7 +12,7 @@ type MyPostsType = {
 
 const maxLength10 = maxLengthCreator(10)
 
-export const MyPosts = ({posts, addPost}: MyPostsType) => {
+const MyPosts = ({posts, addPost}: MyPostsType) => {
 
     const postsElements = posts.map(p => <Post key={p.id}
                                                id={p.id}
@@ -61,3 +60,5 @@ const AddMessagePost: React.FC<InjectedFormProps<AddMessagePostValues>> = (props
 const AddMessagePostRedux = reduxForm<AddMessagePostValues>({
     form: 'profileAddPostMessageForm',
 })(AddMessagePost)
+
+export default React.memo(MyPosts);

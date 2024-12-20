@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {MyPosts} from '../mypost/MyPosts';
+import MyPosts from '../mypost/MyPosts';
 import {addPostAC} from '../../../redax/profileReducer';
 import {RootState} from '../../../redax/redax-store';
 import {PostType} from '../../../componets/profile/mypost/post/Post';
@@ -7,7 +7,6 @@ import {Dispatch} from 'redux';
 
 type MapStatePropsType = {
     posts: PostType[]
-
 }
 
 let mapStateToProps = (state: RootState): MapStatePropsType => {
