@@ -3,10 +3,10 @@ import {sendMessageAC} from './dialogReducer';
 import {Dispatch} from 'redux';
 import {profileAPI, usersAPI} from '../api/api';
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
-const DELETE_POST = 'DELETE_POST';
+const ADD_POST = 'profile/ADD-POST';
+const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
+const SET_STATUS = 'profile/SET_STATUS';
+const DELETE_POST = 'profile/DELETE_POST';
 
 export type ProfileReducerType = {
     posts: PostType[],
@@ -91,30 +91,23 @@ export const deletePost = (postId: number) => (
 //     }
 // };
 
-export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
-    usersAPI.getProfile(userId)
-        .then((response) => {
-            dispatch(setUserProfile(response));
-        })
+export const getUserProfile = (userId: string) => async (dispatch: Dispatch) => {
+    let response = await usersAPI.getProfile(userId)
+    dispatch(setUserProfile(response));
 }
 
-export const getUserStatus = (userId: string) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId)
-        .then((response) => {
-            console.log(response)
-            dispatch(setStatus(response));
-        })
+export const getUserStatus = (userId: string) => async (dispatch: Dispatch) => {
+    let response = await profileAPI.getStatus(userId)
+    dispatch(setStatus(response));
 }
 
-export const updateUserStatus = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status)
-        .then((response) => {
-            if (response.resultCode === 0) {
-                dispatch(setStatus(status));
-            } else {
-                throw new Error('Something wrong update Status!');
-            }
-        })
+export const updateUserStatus = (status: string) => async (dispatch: Dispatch) => {
+    let response = await profileAPI.updateStatus(status)
+    if (response.resultCode === 0) {
+        dispatch(setStatus(status));
+    } else {
+        throw new Error('Something wrong update Status!');
+    }
 }
 
 export type RootInterface = {

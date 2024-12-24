@@ -23,9 +23,9 @@ type Props = {
 // Объединяем InjectedFormProps и Props
 type LoginFormProps = InjectedFormProps<LoginFormData> & Props;
 
-export const LoginForm: React.FC<LoginFormProps> = (props) => {
+export const LoginForm: React.FC<LoginFormProps> = ({handleSubmit, error}: LoginFormProps ) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field type="text"
                        name={'email'}
@@ -47,8 +47,8 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
                        name={'rememberMe'}
                        component={Input}/> remember me
             </div>
-            { props.error && <div className={s.formSummaryError}>
-                {props.error}
+            { error && <div className={s.formSummaryError}>
+                {error}
             </div>}
             <div>
                 <button>Login</button>

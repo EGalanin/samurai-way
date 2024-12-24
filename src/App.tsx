@@ -10,7 +10,6 @@ import UsersContainer from '../src/componets/users/UsersContainer';
 import ProfileContainer from '../src/componets/profile/ProfileContainer';
 import HeaderContainer from '../src/componets/header/HeaderContainer';
 import Login from '../src/componets/login/Login';
-import {getAuthUser, setAuthUserData} from '../src/redax/auth-reduser';
 import {connect} from 'react-redux';
 import {initializeApp} from '../src/redax/app-reduser';
 import {RootState} from '../src/redax/redax-store';

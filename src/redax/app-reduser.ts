@@ -2,7 +2,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {RootState} from '../redax/redax-store';
 import {getAuthUser} from '../../src/redax/auth-reduser';
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS'
+const INITIALIZED_SUCCESS = 'app/INITIALIZED_SUCCESS'
 
 export type initialState = {
     initialized: boolean

@@ -140,58 +140,40 @@ export const toggleFollowingProgress = (isFollowing: boolean, userId: string) =>
 
 //Thunk
 //getUsersThunkCreator
-export const getUsers= (currentPage: number, pageSize: number) => {
-    return (dispatch: Dispatch) => {
+export const getUsers = (currentPage: number, pageSize: number) => {
+    return async (dispatch: Dispatch) => {
         dispatch(toggleIsFetching(true))
         dispatch(setCurrentPage(currentPage))
 
-        usersAPI.getUsers(currentPage, pageSize)
-            // axios.get<ResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
-            //     withCredentials: true
-            // })
-            .then(data => {
-                dispatch(setUsers(data.items))
-                dispatch(setTotalUsersCount(data.totalCount))
-            })
-            .catch(error => {
-                console.log(error.message)
-            })
-            .finally(() => {
-                dispatch(toggleIsFetching(false))
-            });
+        let data = await usersAPI.getUsers(currentPage, pageSize)
+
+        dispatch(setUsers(data.items))
+        dispatch(setTotalUsersCount(data.totalCount))
+        dispatch(toggleIsFetching(false))
     }
 }
 
-export const follow= (userId: string) => {
-    return (dispatch: Dispatch) => {
+export const follow = (userId: string) => {
+    return async (dispatch: Dispatch) => {
         dispatch(toggleFollowingProgress(true, userId))
-        usersAPI.follow(userId)
-            .then(res => {
-                if (res.resultCode === 0) {
-                    dispatch(acceptFollow(userId))
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при подписке на пользователя:', error);
-            })
-            .finally(() => dispatch(toggleFollowingProgress(false, userId)))
+        let response = await usersAPI.follow(userId)
+
+        if (response.resultCode === 0) {
+            dispatch(acceptFollow(userId))
+        }
+        dispatch(toggleFollowingProgress(false, userId))
     }
 }
 
-export const unfollow= (userId: string) => {
-    return (dispatch: Dispatch) => {
+export const unfollow = (userId: string) => {
+    return async (dispatch: Dispatch) => {
         dispatch(toggleFollowingProgress(true, userId))
-        usersAPI.unfollow(userId)
-            .then(res => {
-                if (res.resultCode === 0) {
-                    dispatch(acceptUnfollow(userId));
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при отписке на пользователя:', error)
+        let response = await usersAPI.unfollow(userId)
 
-            })
-            .finally(() => dispatch(toggleFollowingProgress(false, userId)))
+        if (response.resultCode === 0) {
+            dispatch(acceptUnfollow(userId));
+        }
+        dispatch(toggleFollowingProgress(false, userId))
     }
 }
 

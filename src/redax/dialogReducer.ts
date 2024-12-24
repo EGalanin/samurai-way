@@ -3,7 +3,7 @@ import {MessageType} from '../componets/dialogs/message/Message';
 import dog from '../assets/images/dog.jpg';
 import {ActionsType} from './profileReducer';
 
-const SEND_MESSAGE = 'SEND-MESSAGE';
+const SEND_MESSAGE = 'dialogs/SEND-MESSAGE';
 
 export type DialogReducerType = {
     dialogs: DialogType[]

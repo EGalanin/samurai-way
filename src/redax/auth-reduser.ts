@@ -3,7 +3,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {RootState} from '../redax/redax-store';
 import {stopSubmit} from 'redux-form';
 
-const SET_USER_DATA = 'SET_USER_DATA'
+const SET_USER_DATA = 'auth/SET_USER_DATA'
 
 export type initialState = {
     userId: null | string
@@ -33,43 +33,42 @@ export const authReducer = (state: initialState = initialState, action: ActionsT
     }
 }
 
-export const setAuthUserData = (userId: string | null, email: string | null, login: string | null, isAuth: boolean ) => ({
+export const setAuthUserData = (userId: string | null, email: string | null, login: string | null, isAuth: boolean) => ({
     type: SET_USER_DATA,
-    payload: {userId, email, login, isAuth}} as const)
+    payload: {userId, email, login, isAuth}
+} as const)
 
 // thunk
-export const getAuthUser = () => (dispatch: ThunkDispatch<RootState, unknown, ActionsType>) => {
+export const getAuthUser = () => async (dispatch: ThunkDispatch<RootState, unknown, ActionsType>) => {
 
-    return authAPI.me()
-        .then(res => {
-            if (res.resultCode === 0) {
-                let {id, email, login} = res.data
-                dispatch(setAuthUserData(String(id), email, login, true))
-            }
-        })
+    let resporse = await authAPI.me()
+
+    if (resporse.resultCode === 0) {
+        let {id, email, login} = resporse.data
+        dispatch(setAuthUserData(String(id), email, login, true))
+    }
 }
 
-export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: ThunkDispatch<RootState, unknown, ActionsType>) => {
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: ThunkDispatch<RootState, unknown, ActionsType>) => {
 
-    authAPI.login(email, password, rememberMe)
-        .then(res => {
-            // console.log(res)
-            if (res.resultCode === 0) {
-                dispatch(getAuthUser())
-            } else {
-                let message = res.messages.length > 0 ? res.messages[0] : "Common error"
-                dispatch(stopSubmit('login', {_error: message}))
-            }
-        })
+    let response = await authAPI.login(email, password, rememberMe)
+
+    if (response.resultCode === 0) {
+        dispatch(getAuthUser())
+    } else {
+        let message = response.messages.length > 0 ? response.messages[0] : 'Common error'
+        dispatch(stopSubmit('login', {_error: message}))
+    }
+
 }
 
-export const logout = () => (dispatch: ThunkDispatch<RootState, unknown, ActionsType>) => {
-    authAPI.logout()
-        .then(res => {
-            if (res.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false ))
-            }
-        })
+export const logout = () => async (dispatch: ThunkDispatch<RootState, unknown, ActionsType>) => {
+    let response = await authAPI.logout()
+
+    if (response.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false))
+    }
+
 }
 
 export type ActionsType = ReturnType<typeof setAuthUserData> | ReturnType<typeof stopSubmit>

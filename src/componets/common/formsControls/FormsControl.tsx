@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { WrappedFieldProps } from 'redux-form';
+import React, {ReactNode} from 'react';
+import {WrappedFieldProps} from 'redux-form';
 import s from './formsControl.module.css';
 
 type FormControlProps = WrappedFieldProps & {
@@ -8,20 +8,20 @@ type FormControlProps = WrappedFieldProps & {
 };
 
 export const Textarea: React.FC<FormControlProps> = (props) => {
-    const { input, meta } = props;
+    const {input, meta} = props;
     return (
         <FormControl {...props}>
-            <textarea {...input} {...props} className={meta.error && meta.touched ? s.error : ''} />
+            <textarea {...input} {...props} className={meta.error && meta.touched ? s.error : ''}/>
             {meta.error && meta.touched && <span>{meta.error}</span>}
         </FormControl>
     );
 };
 
 export const Input: React.FC<FormControlProps> = (props) => {
-    const { input, meta } = props;
+    const {input, meta} = props;
     return (
         <FormControl {...props}>
-            <input {...input} {...props} className={meta.error && meta.touched ? s.error : ''} />
+            <input {...input} {...props} className={meta.error && meta.touched ? s.error : ''}/>
             {meta.error && meta.touched && <span>{meta.error}</span>}
         </FormControl>
     );
