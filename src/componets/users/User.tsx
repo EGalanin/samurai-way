@@ -1,9 +1,7 @@
 import * as React from 'react';
 import baseUserPhoto from '../../../src/assets/images/avatardefault_92824.svg';
 import s from './users.module.css'
-import {UserType} from '../../../src/redax/users-reduser';
 import {NavLink} from 'react-router-dom';
-import {Paginator} from '../common/Paginator/Paginator';
 
 type Props = {
     user: any
@@ -21,8 +19,8 @@ export const User = ({
                      }: Props) => {
 
     return (
-        <div>
-                    <span>
+        <div className={s.userContainer}>
+                    <span className={s.imgContainer}>
                         <div>
                             <NavLink to={'/profile/' + user.id}>
                                  <img className={s.img} src={user.photos.small || baseUserPhoto} alt=""/>

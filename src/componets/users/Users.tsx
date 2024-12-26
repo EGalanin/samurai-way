@@ -2,6 +2,7 @@ import * as React from 'react';
 import {UserType} from '../../../src/redax/users-reduser';
 import {Paginator} from '../common/Paginator/Paginator';
 import {User} from '../users/User';
+import s from './users.module.css';
 
 type Props = {
     totalCount: number
@@ -27,21 +28,26 @@ export const Users = ({
                       }: Props) => {
 
     return (
-        <div>
-            <Paginator onClickHandler={onClickHandler}
-                       pageSize={pageSize}
-                       currentPage={currentPage}
-                       totalCount={totalCount}
-            />
-
-            {users.map(u => (
-                <User key={u.id}
-                      followingInProgress={followingInProgress}
-                      toggleFollowingProgress={toggleFollowingProgress}
-                      follow={follow}
-                      unfollow={unfollow} user={u}
+        <>
+            <div className={s.paginationContainer}>
+                <Paginator onClickHandler={onClickHandler}
+                           pageSize={pageSize}
+                           currentPage={currentPage}
+                           totalCount={totalCount}
+                           portionSize={20}
                 />
-            ))}
-        </div>
+            </div>
+            <div className={s.usersContainer}>
+                {users.map(u => (
+                    <User key={u.id}
+                          followingInProgress={followingInProgress}
+                          toggleFollowingProgress={toggleFollowingProgress}
+                          follow={follow}
+                          unfollow={unfollow} user={u}
+                    />
+                ))}
+            </div>
+        </>
+
     );
 };

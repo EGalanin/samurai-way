@@ -1,4 +1,37 @@
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.userContainer {
+    display: flex;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.imgContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .img {
     width: 40px;
-    background-color: #4a5052;
+    height: 40px;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+button {
+    margin-top: 5px; /* Отступ между изображением и кнопкой */
+}
+
+.usersContainer {
+    padding: 10px;
 }

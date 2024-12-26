@@ -1,3 +1,21 @@
-.selected {
+
+
+.paginator {
+    padding: 20px 100px;
+}
+
+.pageNumber {
+    display: inline-block;
+    text-align: center;
+    padding: 2px;
+    border: 1px solid grey;
+    width: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.pageNumber.selectedPage {
     font-weight: bold;
+    border-color: black;
 }
