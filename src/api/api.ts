@@ -2,6 +2,13 @@ import axios, {AxiosResponse} from 'axios';
 import {UserType} from '../../src/redax/users-reduser';
 import {RootInterface} from '../redax/profileReducer';
 
+const baseURL = process.env.REACT_APP_URL;
+const apiKey = process.env.REACT_APP_KEY;
+
+if (!baseURL || !apiKey) {
+    throw new Error("Переменные окружения REACT_APP_URL и REACT_APP_KEY должны быть определены");
+}
+
 export type ResponseType = {
     items: UserType[]
     totalCount: number
@@ -29,14 +36,13 @@ export type Login = {
     rememberMe: boolean
 }
 
-
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    baseURL: baseURL,
     headers: {
-        'API-KEY': '923e2395-129b-4098-97f8-439987799b24'
+        'API-KEY': apiKey
     }
-})
+});
 
 export const usersAPI = {
     getUsers: async (currentPage: number = 1, pageSize: number = 10): Promise<ResponseType> => {

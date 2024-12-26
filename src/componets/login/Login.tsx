@@ -21,7 +21,7 @@ type Props = {
 };
 
 // Объединяем InjectedFormProps и Props
-type LoginFormProps = InjectedFormProps<LoginFormData> & Props;
+type LoginFormProps = InjectedFormProps<LoginFormData> ;
 
 export const LoginForm: React.FC<LoginFormProps> = ({handleSubmit, error}: LoginFormProps ) => {
     return (
