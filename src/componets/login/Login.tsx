@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {Input} from '../../componets/common/formsControls/FormsControl';
-import {required} from '../../utils/validators/validators';
-import {ActionsType, login} from '../../redax/auth-reduser';
+import {Input} from 'src/componets/common/formsControls/FormsControl';
+import {required} from 'src/utils/validators/validators';
+import {ActionsType, login} from 'src/redax/auth-reduser';
 import {connect} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
-import {RootState} from '../../redax/redax-store';
+import {RootState} from 'src/redax/redax-store';
 import {Redirect} from 'react-router-dom';
-import s from '../common/formsControls/formsControl.module.css'
+import s from 'src/componets/common/formsControls/formsControl.module.css'
 
 type LoginFormData = {
     email: string;

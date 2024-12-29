@@ -51,7 +51,7 @@ export const ProfileStatus = ({ status, updateUserStatus }: ProfileStatusType) =
                     {currentStatus ? (
                         <span onClick={handleClick}>{currentStatus}</span>
                     ) : (
-                        <span onClick={handleClick}>Нет статуса</span>
+                        <span onClick={handleClick}><b>Status:</b> Нет статуса</span>
                     )}
                 </div>
             )}

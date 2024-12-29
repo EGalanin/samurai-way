@@ -1,5 +1,5 @@
 import React, { Suspense, ComponentType } from 'react';
-import { Preloader } from '../componets/common/Preloader';
+import {Preloader} from 'src/componets/common/Preloader';
 
 const withSuspense = <P extends object>(WrappedComponent: ComponentType<P>) => {
     return (props: P) => (

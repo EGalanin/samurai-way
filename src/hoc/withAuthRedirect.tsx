@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {RootState} from '../../src/redax/redax-store';
+import {RootState} from 'src/redax/redax-store';
 
 type MapStatePropsTypeForRedirect = {
     isAuth: boolean
@@ -18,7 +18,6 @@ export function WithAuthRedirect<T>(Component: React.ComponentType<T>) {
         if (!isAuth) {
             return <Redirect to="/login"/>;
         }
-        // Если аутентифицирован, возвращаем переданный компонент
         return <Component {...restProps as T} />;
     };
     // Оборачиваем RedirectComponent в connect

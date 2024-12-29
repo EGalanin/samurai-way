@@ -1,4 +1,4 @@
-import {RootState} from '../../src/redax/redax-store';
+import {RootState} from 'src/redax/redax-store';
 
 export const getUsersPage = (state: RootState) => state.usersPage?.users;
 

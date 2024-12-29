@@ -1,7 +1,7 @@
-import {DialogType} from '../componets/dialogs/dialog/Dialog';
-import {MessageType} from '../componets/dialogs/message/Message';
-import dog from '../assets/images/dog.jpg';
-import {ActionsType} from './profileReducer';
+import dog from 'src/assets/images/dog.jpg';
+import {DialogType} from 'src/componets/dialogs/dialog/Dialog';
+import {MessageType} from 'src/componets/dialogs/message/Message';
+import {ActionsType} from 'src/redax/profileReducer';
 
 const SEND_MESSAGE = 'dialogs/SEND-MESSAGE';
 

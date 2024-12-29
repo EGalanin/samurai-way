@@ -1,19 +1,19 @@
 import {ThunkDispatch} from 'redux-thunk';
-import {RootState} from '../redax/redax-store';
-import {getAuthUser} from '../../src/redax/auth-reduser';
+import {getAuthUser} from 'src/redax/auth-reduser';
+import {RootState} from 'src/redax/redax-store';
 
 const INITIALIZED_SUCCESS = 'app/INITIALIZED_SUCCESS'
 
-export type initialState = {
+export type initialStateType = {
     initialized: boolean
 }
 
-const initialState = {
+const initialState: initialStateType = {
     initialized: false,
 }
 
 
-export const appReducer = (state: initialState = initialState, action: ActionsType) => {
+export const appReducer = (state = initialState, action: ActionsType): initialStateType => {
 
     switch (action.type) {
         case INITIALIZED_SUCCESS:

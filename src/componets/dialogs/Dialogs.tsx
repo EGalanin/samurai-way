@@ -1,11 +1,11 @@
 import React from 'react';
 import s from './dialogs.module.css';
-import {Message} from './message/Message';
-import {Dialog} from './dialog/Dialog';
-import {DialogReducerType} from '../../redax/dialogReducer';
+import {DialogReducerType} from 'src/redax/dialogReducer';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {Textarea} from '../../componets/common/formsControls/FormsControl';
-import {maxLengthCreator, required} from '../../utils/validators/validators';
+import {Textarea} from 'src/componets/common/formsControls/FormsControl';
+import {maxLengthCreator, required} from 'src/utils/validators/validators';
+import {Dialog} from 'src/componets/dialogs/dialog/Dialog';
+import {Message} from 'src/componets/dialogs/message/Message';
 
 type DialogsType = {
     dialogsPage: DialogReducerType
@@ -17,7 +17,7 @@ const maxLength100 = maxLengthCreator(100)
 
 export const Dialogs = ({dialogsPage, sendMessage, isAuth}: DialogsType) => {
 
-  
+
 
     const dialogsElements = dialogsPage.dialogs.map(d => <Dialog key={d.id}
                                                                        id={d.id}

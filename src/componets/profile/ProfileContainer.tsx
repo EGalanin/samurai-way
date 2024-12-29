@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {useEffect} from 'react';
-import {Profile} from '../../../src/componets/profile/Profile';
 import {connect} from 'react-redux';
-import {RootState} from '../../../src/redax/redax-store';
-import {getUserProfile, getUserStatus, RootInterface, updateUserStatus} from '../../../src/redax/profileReducer';
 import {RouteComponentProps, useParams} from 'react-router-dom';
 import {compose} from 'redux';
-import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
+import {WithAuthRedirect} from 'src/hoc/withAuthRedirect';
+import {getUserProfile, getUserStatus, RootInterface, savePhoto, updateUserStatus} from 'src/redax/profileReducer';
+import {Profile} from 'src/componets/profile/Profile';
+import {RootState} from 'src/redax/redax-store';
 
-type RouteParams  = {
-    userId: string ;
+type RouteParams = {
+    userId: string;
 }
 
 type Props = RouteComponentProps<RouteParams> & {
@@ -17,32 +17,30 @@ type Props = RouteComponentProps<RouteParams> & {
     status: string
     isAuth: boolean
     autorizedUserId: string | null
-    getUserProfile: (userId: string) => any  //пофиксить
-    getUserStatus: (userId: string) => any //пофиксить
-    updateUserStatus: (status: string) => any // пофиксить
+    getUserProfile: (userId: string) => void
+    getUserStatus: (userId: string) => void
+    updateUserStatus: (status: string) => void
+    savePhoto: (file: File) => void
 };
 
 const ProfileContainer: React.FC<Props> = (props) => {
 
-    const {getUserProfile, getUserStatus, updateUserStatus, profile, status, isAuth, autorizedUserId } = props;
-    const { userId } = useParams<RouteParams>()
+    const {getUserProfile, getUserStatus, updateUserStatus, savePhoto, profile, status, isAuth, autorizedUserId} = props;
+    const {userId} = useParams<RouteParams>()
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                console.log("Fetching profile with ID:", userId); // Логируем id
                 if (!userId) {
                     if (autorizedUserId) {
                         getUserProfile(autorizedUserId);
                     } else {
-                        throw new Error("ID авторизованного пользователя отсутствует");
+                        throw new Error('ID авторизованного пользователя отсутствует');
                     }
                     return;
                 }
                 getUserProfile(userId)
-                // console.log("Profile fetched successfully");
                 getUserStatus(userId)
-                // console.log("Get Status successfully");
             } catch (error) {
                 // console.error(error.message); // Логируем ошибку
             }
@@ -50,11 +48,12 @@ const ProfileContainer: React.FC<Props> = (props) => {
         fetchProfile();
     }, [userId, getUserProfile, getUserStatus]);
 
-
     return (
         <Profile profile={profile}
                  status={status}
                  updateUserStatus={updateUserStatus}
+                 isOwner={!!userId}
+                 savePhoto={savePhoto}
         />
     );
 };
@@ -75,6 +74,6 @@ let mapStateToProps = (state: RootState): MapStatePropsType => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}),
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, savePhoto}),
     WithAuthRedirect
 )(ProfileContainer)

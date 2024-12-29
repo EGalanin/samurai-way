@@ -1,8 +1,8 @@
 import React from 'react';
-import {Header} from '../../../src/componets/header/Header';
+import {Header} from 'src/componets/header/Header';
 import {connect} from 'react-redux';
-import {RootState} from '../../../src/redax/redax-store';
-import {logout} from '../../../src/redax/auth-reduser';
+import {RootState} from 'src/redax/redax-store';
+import {logout} from 'src/redax/auth-reduser';
 
 type HeadersProps = {
     isAuth: boolean;
@@ -28,7 +28,6 @@ const HeaderContainer: React.FC<HeadersProps> = ({isAuth, login, logout}) => {
         <Header login={login ?? ''} isAuth={isAuth} logout={logout}/>
     );
 };
-
 
 type MapStatePropsType = {
     isAuth: boolean

@@ -1,6 +1,7 @@
 import React from 'react';
 import { create } from 'react-test-renderer';
-import { ProfileStatus } from '../profileInfo/ProfileStatus';
+import {ProfileStatus} from 'src/componets/profile/profileInfo/ProfileStatus';
+
 
 describe('Компонент Profile Status', () => {
     test('статус должен отображаться корректно', () => {

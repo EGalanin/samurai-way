@@ -1,16 +1,16 @@
-import {UsersApiComponent} from '../../../src/componets/users/UsersApiComponent';
+import {UsersApiComponent} from 'src/componets/users/UsersApiComponent';
 import {connect} from 'react-redux';
-import {RootState} from '../../../src/redax/redax-store';
-import {follow, getUsers, toggleFollowingProgress, unfollow, UserType,} from '../../redax/users-reduser';
-import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
+import {RootState} from 'src/redax/redax-store';
+import {follow, getUsers, toggleFollowingProgress, unfollow, UserType,} from 'src/redax/users-reduser';
 import {compose} from 'redux';
 import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
-    getTotalCount, getUsersPage
-} from '../../redax/users-selectors';
+    getTotalCount,
+    getUsersPage
+} from 'src/redax/users-selectors';
 
 
 type MapStatePropsType = {

@@ -1,4 +1,4 @@
-import {addPostAC, deletePost, profileReducer, ProfileReducerType} from '../../src/redax/profileReducer';
+import {addPostAC, deletePost, profileReducer, ProfileReducerType} from 'src/redax/profileReducer';
 
 const initialState: ProfileReducerType = {
     posts: [

@@ -1,12 +1,14 @@
-import {PostType} from '../componets/profile/mypost/post/Post';
-import {sendMessageAC} from './dialogReducer';
 import {Dispatch} from 'redux';
-import {profileAPI, usersAPI} from '../api/api';
+import {profileAPI, usersAPI} from 'src/api/api';
+import {PostType} from 'src/componets/profile/mypost/post/Post';
+import {sendMessageAC} from 'src/redax/dialogReducer';
+
 
 const ADD_POST = 'profile/ADD-POST';
 const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
 const SET_STATUS = 'profile/SET_STATUS';
 const DELETE_POST = 'profile/DELETE_POST';
+const SAVE_PHOTO_SUCCESS = 'profile/SAVE_PHOTO_SUCCESS';
 
 export type ProfileReducerType = {
     posts: PostType[],
@@ -19,6 +21,7 @@ export type ActionsType = ReturnType<typeof addPostAC>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof deletePost>
+    | ReturnType<typeof savePhotoSuccess>
 
 const initialState: ProfileReducerType = {
     posts: [
@@ -62,6 +65,22 @@ export const profileReducer = (state = initialState, action: ActionsType): Profi
                 posts: state.posts.filter(p => p.id !== action.postId)
             }
         }
+        case SAVE_PHOTO_SUCCESS: {
+            if (state.profile) {
+                return {
+                    ...state,
+                    profile: {
+                        ...state.profile,
+                        photos: {
+                            ...state.profile.photos,
+                            large: action.photos
+                        }
+                    }
+                };
+            }
+            // Если profile равен null, вы можете либо вернуть текущее состояние, либо обработать это по мере необходимости
+            return state;
+        }
         default:
             return state
     }
@@ -79,6 +98,10 @@ export const setStatus = (status: string) => (
 
 export const deletePost = (postId: number) => (
     {type: DELETE_POST, postId} as const
+)
+
+export const savePhotoSuccess = (photos: string) => (
+    {type: SAVE_PHOTO_SUCCESS, photos} as const
 )
 
 //thunk
@@ -110,12 +133,21 @@ export const updateUserStatus = (status: string) => async (dispatch: Dispatch) =
     }
 }
 
+export const savePhoto = (file: string) => async (dispatch: Dispatch) => {
+    let response = await profileAPI.savePhoto(file)
+    if (response.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.large));
+    } else {
+        throw new Error('Something wrong savePhoto!');
+    }
+}
+
 export type RootInterface = {
-    aboutMe: string;
+    aboutMe?: string;
     contacts: Contacts;
-    lookingForAJob: boolean;
-    lookingForAJobDescription: string;
-    fullName: string;
+    lookingForAJob?: boolean;
+    lookingForAJobDescription?: string;
+    fullName?: string;
     userId: number;
     photos: Photos;
 }

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {UserType} from '../../../src/redax/users-reduser';
-import {Paginator} from '../common/Paginator/Paginator';
-import {User} from '../users/User';
+import {UserType} from 'src/redax/users-reduser';
 import s from './users.module.css';
+import {Paginator} from 'src/componets/common/Paginator/Paginator';
+import {User} from 'src/componets/users/User';
 
 type Props = {
     totalCount: number
@@ -15,6 +15,7 @@ type Props = {
     toggleFollowingProgress: (isFollowing: boolean, userId: string) => void
     followingInProgress: string[]
 };
+
 export const Users = ({
                           totalCount,
                           pageSize,

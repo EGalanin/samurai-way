@@ -1,6 +1,6 @@
-import baseFoto from '../assets/images/1avatara_ru_3D019.jpg'
 import {Dispatch} from 'redux';
-import {usersAPI} from '../api/api';
+import {usersAPI} from 'src/api/api';
+
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'

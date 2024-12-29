@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
-import MyPosts from '../mypost/MyPosts';
-import {addPostAC} from '../../../redax/profileReducer';
-import {RootState} from '../../../redax/redax-store';
-import {PostType} from '../../../componets/profile/mypost/post/Post';
+import {addPostAC} from 'src/redax/profileReducer';
+import {RootState} from 'src/redax/redax-store';
+import {PostType} from 'src/componets/profile/mypost/post/Post';
 import {Dispatch} from 'redux';
+import MyPosts from 'src/componets/profile/mypost/MyPosts';
 
 type MapStatePropsType = {
     posts: PostType[]

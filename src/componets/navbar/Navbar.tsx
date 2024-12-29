@@ -1,8 +1,6 @@
 import React from 'react';
 import S from './navbar.module.css'
 import {NavLink} from 'react-router-dom';
-import {Sidebar} from '../sidebar/Sidebar';
-import {SidebarReducerType} from '../../redax/sidebarReducer';
 
 // type NavbarType = {
 //     state: SidebarReducerType

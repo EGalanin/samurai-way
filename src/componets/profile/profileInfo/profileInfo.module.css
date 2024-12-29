@@ -8,3 +8,11 @@
 ;
 }
 
+.mainPhoto {
+    width: 200px;
+    max-width: 100%;
+}
+
+.contact {
+    padding-left: 10px;
+}

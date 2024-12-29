@@ -1,9 +1,9 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './myposts.module.css'
-import {Post, PostType} from './post/Post';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {maxLengthCreator, required} from '../../../utils/validators/validators';
-import {Textarea} from '../../../componets/common/formsControls/FormsControl';
+import {maxLengthCreator, required} from 'src/utils/validators/validators';
+import {Textarea} from 'src/componets/common/formsControls/FormsControl';
+import {Post, PostType} from 'src/componets/profile/mypost/post/Post';
 
 type MyPostsType = {
     posts: PostType[];

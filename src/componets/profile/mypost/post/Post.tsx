@@ -1,6 +1,6 @@
 import React from 'react';
 import S from './post.module.css';
-import dog from '../../../../assets/images/dog.jpg';
+import baseUserPhoto from 'src/assets/images/avatardefault_92824.svg';
 
 export type PostType = {
     id: number
@@ -11,7 +11,7 @@ export type PostType = {
 export const Post = ({id, message, count}: PostType) => {
     return (
         <div className={S.item}>
-            <img src={dog} alt="аватар"/>
+            <img src={baseUserPhoto} alt="аватар"/>
             <div>
                 {message}
             </div>

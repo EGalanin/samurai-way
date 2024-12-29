@@ -1,10 +1,11 @@
 import * as React from 'react';
-import baseUserPhoto from '../../../src/assets/images/avatardefault_92824.svg';
+import baseUserPhoto from 'src/assets/images/avatardefault_92824.svg';
 import s from './users.module.css'
 import {NavLink} from 'react-router-dom';
+import {UserType} from 'src/redax/users-reduser';
 
 type Props = {
-    user: any
+    user: UserType
     follow: (userId: string) => void
     unfollow: (userId: string) => void
     toggleFollowingProgress: (isFollowing: boolean, userId: string) => void

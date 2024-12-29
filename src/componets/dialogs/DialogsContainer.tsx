@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
-import {Dialogs} from './Dialogs';
-import {DialogReducerType, sendMessageAC} from '../../redax/dialogReducer';
-import {RootState} from '../../redax/redax-store';
+import {DialogReducerType, sendMessageAC} from 'src/redax/dialogReducer';
+import {RootState} from 'src/redax/redax-store';
 import {Dispatch} from 'redux';
-import {WithAuthRedirect} from '../../hoc/withAuthRedirect';
+import {WithAuthRedirect} from 'src/hoc/withAuthRedirect';
+import {Dialogs} from 'src/componets/dialogs/Dialogs';
 
 type MapStatePropsType = {
     dialogsPage: DialogReducerType,

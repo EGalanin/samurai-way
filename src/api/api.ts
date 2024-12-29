@@ -1,13 +1,6 @@
 import axios, {AxiosResponse} from 'axios';
-import {UserType} from '../../src/redax/users-reduser';
-import {RootInterface} from '../redax/profileReducer';
-
-const baseURL = process.env.REACT_APP_URL;
-const apiKey = process.env.REACT_APP_KEY;
-
-if (!baseURL || !apiKey) {
-    throw new Error("Переменные окружения REACT_APP_URL и REACT_APP_KEY должны быть определены");
-}
+import {UserType} from 'src/redax/users-reduser';
+import {Photos, RootInterface} from 'src/redax/profileReducer';
 
 export type ResponseType = {
     items: UserType[]
@@ -38,11 +31,11 @@ export type Login = {
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: baseURL,
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     headers: {
-        'API-KEY': apiKey
+        'API-KEY': '923e2395-129b-4098-97f8-439987799b24'
     }
-});
+})
 
 export const usersAPI = {
     getUsers: async (currentPage: number = 1, pageSize: number = 10): Promise<ResponseType> => {
@@ -84,6 +77,19 @@ export const profileAPI = {
             `profile/status`,
             {status})
         // console.log(response.data)
+        return response.data
+    },
+    savePhoto: async (photoFile: string): Promise<Response<Photos>> => {
+        const formData = new FormData();
+        formData.append('image', photoFile)
+
+        const response: AxiosResponse<Response<Photos>> = await instance.put<Response<Photos>>(
+            `profile/photo`,
+            formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
         return response.data
     }
 

@@ -1,26 +1,25 @@
-import {authAPI} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
-import {RootState} from '../redax/redax-store';
 import {stopSubmit} from 'redux-form';
+import {RootState} from 'src/redax/redax-store';
+import {authAPI} from 'src/api/api';
 
 const SET_USER_DATA = 'auth/SET_USER_DATA'
 
-export type initialState = {
+export type initialStateType = {
     userId: null | string
     email: null | string
     login: null | string
     isAuth: boolean
 }
 
-const initialState = {
+const initialState: initialStateType = {
     userId: null,
     email: null,
     login: null,
     isAuth: false
 }
 
-
-export const authReducer = (state: initialState = initialState, action: ActionsType) => {
+export const authReducer = (state = initialState, action: ActionsType): initialStateType => {
 
     switch (action.type) {
         case SET_USER_DATA:
@@ -68,7 +67,6 @@ export const logout = () => async (dispatch: ThunkDispatch<RootState, unknown, A
     if (response.resultCode === 0) {
         dispatch(setAuthUserData(null, null, null, false))
     }
-
 }
 
 export type ActionsType = ReturnType<typeof setAuthUserData> | ReturnType<typeof stopSubmit>
